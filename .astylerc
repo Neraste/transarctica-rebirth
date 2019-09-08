@@ -1,0 +1,40 @@
+# brace style
+style=attach
+
+# indent class/struct modifiers
+indent-modifiers
+
+# indent for switches
+#indent-switches
+indent-cases
+
+# indent for namespace
+#indent-namespace
+
+# indent comments starting at line 1
+indent-col1-comments
+
+# add space before and after blocks
+break-blocks
+
+# add space before and after operators
+pad-oper
+
+# add space after comma
+pad-comma
+
+# pad parentheses for headers
+unpad-paren
+pad-header
+
+# align pointer/reference symbols
+align-pointer=type
+
+# attach return type to definition
+attach-return-type
+
+# close double templates
+close-templates
+
+# line length
+max-code-length=99
