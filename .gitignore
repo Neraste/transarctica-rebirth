@@ -49,3 +49,6 @@ build/*
 *.swp
 *.orig
 .lvimrc
+
+# Documentation
+doc/

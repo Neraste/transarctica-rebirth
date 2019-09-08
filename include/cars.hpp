@@ -8,6 +8,10 @@
 
 namespace cars {
 
+/**
+ * Generic car object.
+ * This class is abstract.
+ */
 class Car {
   protected:
 
@@ -29,6 +33,7 @@ class Car {
 
     /**
      * Base weight of the car.
+     * It does not include weight of the payload.
      */
     std::size_t weight;
 
@@ -41,11 +46,18 @@ class Car {
 
     /**
      * Usual constructor.
+     * @param id ID of the car.
+     * @param name Human-readable name of the car.
+     * @param health Health points of the car.
+     * @param weight Base weight of the car.
      */
     Car(const size_t id, const std::string name, const int health, const std::size_t weight);
 
     /**
      * Usual constructor with maximum health.
+     * @param id ID of the car.
+     * @param name Human-readable name of the car.
+     * @param weight Base weight of the car.
      */
     Car(const size_t id, const std::string name, const std::size_t weight);
 
@@ -56,31 +68,37 @@ class Car {
 
     /**
      * Getter for ID.
+     * @return ID of the car.
      */
     std::size_t getId() const;
 
     /**
      * Getter for name.
+     * @return Human-readable name of the car.
      */
     std::string getName() const;
 
     /**
      * Getter for health points.
+     * @return Health points of the car.
      */
     int getHealth() const;
 
     /**
      * Getter for weight.
+     * @return Total weight of the car.
      */
     virtual std::size_t getWeight() const = 0;
 
     /**
      * Indicate if the car is destroyed.
+     * @return True if the car has 0 health points or lower.
      */
     bool isDestroyed() const;
 
     /**
      * Take dammage.
+     * @param attack Value of the attack.
      */
     void takeDammage(int attack);
 
@@ -90,6 +108,9 @@ class Car {
     void repair();
 };
 
+/**
+ * Error class used when trying to modify or querry a destroyed car.
+ */
 class DestroyedCarError : public std::exception {
     /**
      * Destroyed car.
@@ -100,15 +121,20 @@ class DestroyedCarError : public std::exception {
 
     /**
      * Usual constructor.
+     * @param car Destroyed car.
      */
     DestroyedCarError(const Car* car);
 
     /**
      * Error message.
+     * @return Error message.
      */
     const char* what() const throw();
 };
 
+/**
+ * Normal car object.
+ */
 class NormalCar : public Car {
     using Car::Car;
 
@@ -121,6 +147,9 @@ class NormalCar : public Car {
     std::size_t getWeight() const;
 };
 
+/**
+ * Car that accept a load.
+ */
 class LoadCar : public Car {
   protected:
 
@@ -158,6 +187,13 @@ class LoadCar : public Car {
 
     /**
      * Usual constructor.
+     * @param id ID of the car.
+     * @param name Human-readable name of the car.
+     * @param health Health points of the car.
+     * @param weight Base weight of the car.
+     * @param maxQuantity Capacity of the car.
+     * @param merchType Type of merch accepted in the car.
+     * @param merchLoad Load in the car.
      */
     LoadCar(const std::size_t id, const std::string name, const int health, const std::size_t weight,
             const std::size_t maxQuantity, const merchandises::merchTypes merchType,
@@ -165,12 +201,24 @@ class LoadCar : public Car {
 
     /**
      * Usual constructor for empty car.
+     * @param id ID of the car.
+     * @param name Human-readable name of the car.
+     * @param health Health points of the car.
+     * @param weight Base weight of the car.
+     * @param maxQuantity Capacity of the car.
+     * @param merchType Type of merch accepted in the car.
      */
     LoadCar(const std::size_t id, const std::string name, const int health, const std::size_t weight,
             const std::size_t maxQuantity, const merchandises::merchTypes merchType);
 
     /**
      * Usual constructor for car with full health points.
+     * @param id ID of the car.
+     * @param name Human-readable name of the car.
+     * @param weight Base weight of the car.
+     * @param maxQuantity Capacity of the car.
+     * @param merchType Type of merch accepted in the car.
+     * @param merchLoad Load in the car.
      */
     LoadCar(const std::size_t id, const std::string name, const std::size_t weight,
             const std::size_t maxQuantity, const merchandises::merchTypes merchType,
@@ -178,66 +226,84 @@ class LoadCar : public Car {
 
     /**
      * Usual constructor for empty car with full health points.
+     * @param id ID of the car.
+     * @param name Human-readable name of the car.
+     * @param weight Base weight of the car.
+     * @param maxQuantity Capacity of the car.
+     * @param merchType Type of merch accepted in the car.
      */
     LoadCar(const std::size_t id, const std::string name, const std::size_t weight,
             const std::size_t maxQuantity, const merchandises::merchTypes merchType);
 
     /**
      * Getter for weight.
-     * It adds the base weight of the car and the weight of the merch load.
+     * @return Base weight of the car and the weight of the load.
      */
     std::size_t getWeight() const;
 
     /**
      * Getter for max quantity of merch load.
+     * @return Total capacity of the car.
      */
     std::size_t getMaxQuantity() const;
 
     /**
      * Getter for remaining space in car.
+     * @return Current capacity of the car.
      */
     std::size_t getRemainingQuantity() const;
 
     /**
      * Getter for accepted merch type.
+     * @return Type of merch accepted in the car.
      */
     merchandises::merchTypes getMerchType() const;
 
     /**
      * Getter for merch load.
+     * @return Load in the car.
      */
     merchandises::MerchLoad getMerchLoad() const;
 
     /**
-     * Tells if the car is empty.
+     * Tell if the car is empty.
+     * @return True if the car has no load.
      */
     bool isEmpty() const;
 
     /**
-     * Tells if the car is full.
+     * Tell if the car is full.
+     * @return True if there is no space left.
      */
     bool isFull() const;
 
     /**
      * Tell if the car can load this merch load.
+     * @param merchLoad Load to consider.
+     * @return True if the load cand be loaded.
      */
     bool canLoad(const merchandises::MerchLoad& merchLoad) const;
 
     /**
      * Load a merch load in the car.
+     * @param merchLoad Load to load in the car.
      */
     void load(merchandises::MerchLoad& merchLoad);
 
     /**
      * Load a certain quantity of a merch load in the car.
+     * @param merchLoad Load to load in the car.
+     * @param quantity Quantity of load to load only.
      */
     void load(merchandises::MerchLoad& merchLoad, const std::size_t quantity);
 
     /**
      * Unload merch loads from the car.
+     * @param quantity Quantity of load to unload.
      */
     void unLoad(const std::size_t quantity);
 };
+
 }
 
 #endif // ifndef CARS_HPP
