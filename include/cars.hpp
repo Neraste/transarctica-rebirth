@@ -35,7 +35,7 @@ class Car {
      * Base weight of the car.
      * It does not include weight of the payload.
      */
-    std::size_t weight;
+    float weight;
 
   public:
 
@@ -51,7 +51,7 @@ class Car {
      * @param health Health points of the car.
      * @param weight Base weight of the car.
      */
-    Car(const size_t id, const std::string name, const int health, const std::size_t weight);
+    Car(const size_t id, const std::string name, const int health, const float weight);
 
     /**
      * Usual constructor with maximum health.
@@ -59,7 +59,7 @@ class Car {
      * @param name Human-readable name of the car.
      * @param weight Base weight of the car.
      */
-    Car(const size_t id, const std::string name, const std::size_t weight);
+    Car(const size_t id, const std::string name, const float weight);
 
     /**
      * Maximum health points.
@@ -88,7 +88,7 @@ class Car {
      * Getter for weight.
      * @return Total weight of the car.
      */
-    virtual std::size_t getWeight() const = 0;
+    virtual float getWeight() const = 0;
 
     /**
      * Indicate if the car is destroyed.
@@ -132,7 +132,7 @@ class NormalCar : public Car {
      * Getter for weight.
      * It simply returns the base weight.
      */
-    std::size_t getWeight() const;
+    float getWeight() const;
 };
 
 /**
@@ -183,7 +183,7 @@ class LoadCar : public Car {
      * @param merchType Type of merch accepted in the car.
      * @param merchLoad Load in the car.
      */
-    LoadCar(const std::size_t id, const std::string name, const int health, const std::size_t weight,
+    LoadCar(const std::size_t id, const std::string name, const int health, const float weight,
             const std::size_t maxQuantity, const merchandises::merchTypes merchType,
             merchandises::MerchLoad& merchLoad);
 
@@ -196,7 +196,7 @@ class LoadCar : public Car {
      * @param maxQuantity Capacity of the car.
      * @param merchType Type of merch accepted in the car.
      */
-    LoadCar(const std::size_t id, const std::string name, const int health, const std::size_t weight,
+    LoadCar(const std::size_t id, const std::string name, const int health, const float weight,
             const std::size_t maxQuantity, const merchandises::merchTypes merchType);
 
     /**
@@ -208,7 +208,7 @@ class LoadCar : public Car {
      * @param merchType Type of merch accepted in the car.
      * @param merchLoad Load in the car.
      */
-    LoadCar(const std::size_t id, const std::string name, const std::size_t weight,
+    LoadCar(const std::size_t id, const std::string name, const float weight,
             const std::size_t maxQuantity, const merchandises::merchTypes merchType,
             merchandises::MerchLoad& merchLoad);
 
@@ -220,14 +220,14 @@ class LoadCar : public Car {
      * @param maxQuantity Capacity of the car.
      * @param merchType Type of merch accepted in the car.
      */
-    LoadCar(const std::size_t id, const std::string name, const std::size_t weight,
+    LoadCar(const std::size_t id, const std::string name, const float weight,
             const std::size_t maxQuantity, const merchandises::merchTypes merchType);
 
     /**
      * Getter for weight.
      * @return Base weight of the car and the weight of the load.
      */
-    std::size_t getWeight() const;
+    float getWeight() const;
 
     /**
      * Getter for max quantity of merch load.

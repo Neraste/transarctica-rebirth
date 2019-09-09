@@ -4,6 +4,8 @@
 
 #include "cars.hpp"
 
+namespace tt = boost::test_tools;
+
 BOOST_AUTO_TEST_SUITE(cars)
 
 BOOST_AUTO_TEST_SUITE(normalCar)
@@ -14,7 +16,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     BOOST_TEST(cargo.getId() == 1);
     BOOST_TEST(cargo.getName() == "cargo");
     BOOST_TEST(cargo.getHealth() == 50);
-    BOOST_TEST(cargo.getWeight() == 100);
+    BOOST_TEST(cargo.getWeight() == 100, tt::tolerance(0.01));
     BOOST_TEST(!cargo.isDestroyed());
 
     // create car with usual constructor and full health
@@ -22,7 +24,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     BOOST_TEST(crane.getId() == 2);
     BOOST_TEST(crane.getName() == "crane");
     BOOST_TEST(crane.getHealth() == cars::Car::maxHealth);
-    BOOST_TEST(crane.getWeight() == 50);
+    BOOST_TEST(crane.getWeight() == 50, tt::tolerance(0.01));
     BOOST_TEST(!crane.isDestroyed());
 
     // create car with default constructor
@@ -30,7 +32,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     BOOST_TEST(none.getId() == 0);
     BOOST_TEST(none.getName() == "");
     BOOST_TEST(none.getHealth() == cars::Car::maxHealth);
-    BOOST_TEST(none.getWeight() == 0);
+    BOOST_TEST(none.getWeight() == 0, tt::tolerance(0.01));
     BOOST_TEST(!none.isDestroyed());
 }
 
@@ -81,7 +83,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
 
     // create car with usual constructor
     cars::LoadCar cargo1(1, "dummy", 50, 100, 50, lumber.getType(), lumberLoad);
-    BOOST_TEST(cargo1.getWeight() == 100);
+    BOOST_TEST(cargo1.getWeight() == 110, tt::tolerance(0.01));
     BOOST_TEST(cargo1.getMaxQuantity() == 50);
     BOOST_TEST(cargo1.getMerchType() == lumber.getType());
     BOOST_TEST((cargo1.getMerchLoad().getMerch() == lumber));
@@ -91,7 +93,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
 
     // create car with usual constructor for empty car
     cars::LoadCar cargo2(2, "cargo", 50, 200, 60, lumber.getType());
-    BOOST_TEST(cargo2.getWeight() == 200);
+    BOOST_TEST(cargo2.getWeight() == 200, tt::tolerance(0.01));
     BOOST_TEST(cargo2.getMaxQuantity() == 60);
     BOOST_TEST(cargo2.getMerchType() == lumber.getType());
     BOOST_TEST(cargo2.getRemainingQuantity() == 60);
@@ -100,7 +102,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
 
     // create car with usual constructor for car with full health points
     cars::LoadCar cargo3(3, "cargo", 150, 10, lumber.getType(), lumberLoad);
-    BOOST_TEST(cargo3.getWeight() == 150);
+    BOOST_TEST(cargo3.getWeight() == 160, tt::tolerance(0.01));
     BOOST_TEST(cargo3.getMaxQuantity() == 10);
     BOOST_TEST(cargo3.getMerchType() == lumber.getType());
     BOOST_TEST((cargo3.getMerchLoad().getMerch() == lumber));
@@ -110,7 +112,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
 
     // create car with usual constructor for empty car with full health points
     cars::LoadCar cargo4(4, "cargo", 250, 100, lumber.getType());
-    BOOST_TEST(cargo4.getWeight() == 250);
+    BOOST_TEST(cargo4.getWeight() == 250, tt::tolerance(0.01));
     BOOST_TEST(cargo4.getMaxQuantity() == 100);
     BOOST_TEST(cargo4.getMerchType() == lumber.getType());
     BOOST_TEST(cargo4.getRemainingQuantity() == 100);
@@ -119,7 +121,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
 
     // create a destroyed car
     cars::LoadCar cargo5(1, "cargo", 0, 100, 50, lumber.getType(), lumberLoad);
-    BOOST_TEST(cargo5.getWeight() == 100);
+    BOOST_TEST(cargo5.getWeight() == 100, tt::tolerance(0.01));
     BOOST_CHECK_THROW(cargo5.getMaxQuantity(), cars::DestroyedCarError);
     BOOST_CHECK_THROW(cargo5.getMerchType(), cars::DestroyedCarError);
     BOOST_CHECK_THROW(cargo5.getMerchLoad(), cars::DestroyedCarError);
@@ -186,6 +188,7 @@ BOOST_AUTO_TEST_CASE(testLoad) {
     // create empty cargo car
     cars::LoadCar cargo(1, "cargo", 100, 25, merchandises::merchTypes::box);
     BOOST_TEST(cargo.isEmpty());
+    BOOST_TEST(cargo.getWeight() == 100, tt::tolerance(0.01));
     BOOST_TEST(cargo.getRemainingQuantity() == 25);
 
     // load 10 oil in the car and get exception
@@ -196,12 +199,14 @@ BOOST_AUTO_TEST_CASE(testLoad) {
     BOOST_TEST(!cargo.isEmpty());
     BOOST_TEST(cargo.getRemainingQuantity() == 15);
     BOOST_TEST(cargo.getMerchLoad().getQuantity() == 10);
+    BOOST_TEST(cargo.getWeight() == 110, tt::tolerance(0.01));
     BOOST_TEST(lumberInCity.getQuantity() == 40);
 
     // load 10 more lumber in the car
     cargo.load(lumberInCity, 10);
     BOOST_TEST(cargo.getRemainingQuantity() == 5);
     BOOST_TEST(cargo.getMerchLoad().getQuantity() == 20);
+    BOOST_TEST(cargo.getWeight() == 120, tt::tolerance(0.01));
     BOOST_TEST(lumberInCity.getQuantity() == 30);
 
     // load 10 more and get exception
@@ -222,18 +227,21 @@ BOOST_AUTO_TEST_CASE(testUnLoad) {
     BOOST_TEST(cargo.isFull());
     BOOST_TEST(!cargo.canLoad(lumberInCity));
     BOOST_TEST(cargo.getRemainingQuantity() == 0);
+    BOOST_TEST(cargo.getWeight() == 125, tt::tolerance(0.01));
 
     // unload 10 lumber from the car
     cargo.unLoad(10);
     BOOST_TEST(!cargo.isFull());
     BOOST_TEST(cargo.canLoad(lumberInCity));
     BOOST_TEST(cargo.getRemainingQuantity() == 10);
+    BOOST_TEST(cargo.getWeight() == 115, tt::tolerance(0.01));
 
     // unload 10 more lumber from the car
     cargo.unLoad(10);
     BOOST_TEST(!cargo.isFull());
     BOOST_TEST(cargo.canLoad(lumberInCity));
     BOOST_TEST(cargo.getRemainingQuantity() == 20);
+    BOOST_TEST(cargo.getWeight() == 105, tt::tolerance(0.01));
 
     // unload 10 more and get exception
     BOOST_CHECK_THROW(cargo.unLoad(10), cars::NotEnoughLoadError);

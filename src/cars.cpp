@@ -6,10 +6,10 @@ cars::Car::Car() :
     id(0), name(""), health(maxHealth), weight(0) {}
 
 cars::Car::Car(const size_t id, const std::string name, const int health,
-               const std::size_t weight) :
+               const float weight) :
     id(id), name(name), health(health), weight(weight) {}
 
-cars::Car::Car(const size_t id, const std::string name, const std::size_t weight) :
+cars::Car::Car(const size_t id, const std::string name, const float weight) :
     id(id), name(name), health(maxHealth), weight(weight) {}
 
 std::size_t cars::Car::getId() const {
@@ -45,7 +45,7 @@ const char* cars::DestroyedCarError::what() const throw() {
     return "Car is destroyed";
 }
 
-std::size_t cars::NormalCar::getWeight() const {
+float cars::NormalCar::getWeight() const {
     return weight;
 }
 
@@ -54,25 +54,25 @@ cars::LoadCar::LoadCar() :
     empty(true) {}
 
 cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const int health,
-                       const std::size_t weight, const std::size_t maxQuantity, const merchandises::merchTypes merchType,
+                       const float weight, const std::size_t maxQuantity, const merchandises::merchTypes merchType,
                        merchandises::MerchLoad& otherMerchLoad) :
     Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType), empty(true) {
     setMerchLoad(otherMerchLoad);
 }
 
 cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const int health,
-                       const std::size_t weight, const std::size_t maxQuantity,
+                       const float weight, const std::size_t maxQuantity,
                        const merchandises::merchTypes merchType) :
     Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType), empty(true) {}
 
-cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const std::size_t weight,
+cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const float weight,
                        const std::size_t maxQuantity, const merchandises::merchTypes merchType,
                        merchandises::MerchLoad& otherMerchLoad) :
     Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType), empty(true) {
     setMerchLoad(otherMerchLoad);
 }
 
-cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const std::size_t weight,
+cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const float weight,
                        const std::size_t maxQuantity, const merchandises::merchTypes merchType) :
     Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType), empty(true) {}
 
@@ -89,8 +89,16 @@ void cars::LoadCar::setMerchLoad(const merchandises::MerchLoad& otherMerchLoad) 
     empty = false;
 }
 
-std::size_t cars::LoadCar::getWeight() const {
-    return weight;
+float cars::LoadCar::getWeight() const {
+    // base weight if car is destroyed
+    if (isDestroyed()) return weight;
+
+    // base weight if car is empty
+    if (isEmpty()) return weight;
+
+    // base weight + load weight
+    // 1 quantity is 1 ton
+    return weight + merchLoad.getQuantity();
 }
 
 std::size_t cars::LoadCar::getMaxQuantity() const {
