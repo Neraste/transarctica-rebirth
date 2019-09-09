@@ -204,26 +204,7 @@ class MerchLoad {
 /**
  * Error class used when trying to manipulate two loads of different merch.
  */
-class NotSameMerchError : public std::exception {
-    /**
-     * First merch.
-     */
-    Merch merch1;
-
-    /**
-     * Second merch.
-     */
-    Merch merch2;
-
-  public:
-
-    /**
-     * Usual constructor.
-     * @param merch1 First merch.
-     * @param merch2 Second merch.
-     */
-    NotSameMerchError(const Merch& merch1, const Merch& merch2);
-
+struct NotSameMerchError : public std::exception {
     /**
      * Get exception message.
      * @return Error message.

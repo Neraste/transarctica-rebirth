@@ -130,8 +130,8 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     // create car with too much load
     merchandises::MerchLoad anotherLumberLoad(lumber, 100, 100);
     cars::LoadCar cargo6;
-    BOOST_CHECK_THROW((cargo6 = cars::LoadCar(3, "dummy", 150, 10, lumber.getType(),
-                                anotherLumberLoad)), std::runtime_error);
+    BOOST_CHECK_THROW((cargo6 = cars::LoadCar(3, "cargo", 150, 10, lumber.getType(),
+                                anotherLumberLoad)), cars::NotEnoughSpaceError);
 }
 
 BOOST_AUTO_TEST_CASE(testCanLoad) {
@@ -179,12 +179,17 @@ BOOST_AUTO_TEST_CASE(testCanLoad) {
 BOOST_AUTO_TEST_CASE(testLoad) {
     // create merchs and merch loads
     merchandises::Merch lumber(100, "lumber", merchandises::merchTypes::box);
+    merchandises::Merch oil(101, "oil", merchandises::merchTypes::liquidToxic);
     merchandises::MerchLoad lumberInCity(lumber, 50, 100);
+    merchandises::MerchLoad oilInCity(oil, 50, 100);
 
     // create empty cargo car
     cars::LoadCar cargo(1, "cargo", 100, 25, merchandises::merchTypes::box);
     BOOST_TEST(cargo.isEmpty());
     BOOST_TEST(cargo.getRemainingQuantity() == 25);
+
+    // load 10 oil in the car and get exception
+    BOOST_CHECK_THROW(cargo.load(oilInCity, 10), cars::CannotLoadError);
 
     // load 10 lumber in the car
     cargo.load(lumberInCity, 10);
@@ -199,7 +204,11 @@ BOOST_AUTO_TEST_CASE(testLoad) {
     BOOST_TEST(cargo.getMerchLoad().getQuantity() == 20);
     BOOST_TEST(lumberInCity.getQuantity() == 30);
 
-    // TODO load 10 more and get exception
+    // load 10 more and get exception
+    BOOST_CHECK_THROW(cargo.load(lumberInCity, 10), cars::NotEnoughSpaceError);
+
+    // load a negative amount, the negative value should represent a crazy high positive value
+    BOOST_CHECK_THROW(cargo.load(lumberInCity, -10), cars::NotEnoughSpaceError);
 }
 
 BOOST_AUTO_TEST_CASE(testUnLoad) {
@@ -226,7 +235,11 @@ BOOST_AUTO_TEST_CASE(testUnLoad) {
     BOOST_TEST(cargo.canLoad(lumberInCity));
     BOOST_TEST(cargo.getRemainingQuantity() == 20);
 
-    // TODO unload 10 more and get exception
+    // unload 10 more and get exception
+    BOOST_CHECK_THROW(cargo.unLoad(10), cars::NotEnoughLoadError);
+
+    // unload a negative amount, the negative value should represent a crazy high positive value
+    BOOST_CHECK_THROW(cargo.unLoad(-10), cars::NotEnoughLoadError);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // loadCar

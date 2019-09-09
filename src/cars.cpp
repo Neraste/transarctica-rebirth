@@ -1,7 +1,3 @@
-#include <stdexcept>
-
-#include <boost/format.hpp>
-
 #include "cars.hpp"
 
 const int cars::Car::maxHealth = 100;
@@ -40,18 +36,13 @@ void cars::Car::takeDammage(int attack) {
 
 void cars::Car::repair() {
     // impossible if the car is destroyed
-    if (isDestroyed()) throw DestroyedCarError(this);
+    if (isDestroyed()) throw DestroyedCarError();
 
     health = maxHealth;
 }
 
-cars::DestroyedCarError::DestroyedCarError(const Car* car) :
-    car(car) {}
-
 const char* cars::DestroyedCarError::what() const throw() {
-    const char* message = (boost::format("Car %1% (%2%) is destroyed") % car->getName() %
-                           car->getId()).str().c_str();
-    return message;
+    return "Car is destroyed";
 }
 
 std::size_t cars::NormalCar::getWeight() const {
@@ -86,10 +77,14 @@ cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const std::
     Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType), empty(true) {}
 
 void cars::LoadCar::setMerchLoad(const merchandises::MerchLoad& otherMerchLoad) {
+    // do not set merch load if the load is empty
     if (!otherMerchLoad.getQuantity()) return;
 
-    if (otherMerchLoad.getQuantity() > maxQuantity) throw std::runtime_error("Excessive quantity");
+    // check there is enouth place in the car
+    const merchandises::MerchLoad* otherMerchLoadP = &otherMerchLoad;
+    if (otherMerchLoad.getQuantity() > maxQuantity) throw NotEnoughSpaceError();
 
+    // load the car
     merchLoad = otherMerchLoad;
     empty = false;
 }
@@ -100,14 +95,14 @@ std::size_t cars::LoadCar::getWeight() const {
 
 std::size_t cars::LoadCar::getMaxQuantity() const {
     // impossible if the car is destroyed
-    if (isDestroyed()) throw DestroyedCarError(this);
+    if (isDestroyed()) throw DestroyedCarError();
 
     return maxQuantity;
 }
 
 std::size_t cars::LoadCar::getRemainingQuantity() const {
     // impossible if the car is destroyed
-    if (isDestroyed()) throw DestroyedCarError(this);
+    if (isDestroyed()) throw DestroyedCarError();
 
     if (empty) return maxQuantity;
 
@@ -116,14 +111,14 @@ std::size_t cars::LoadCar::getRemainingQuantity() const {
 
 merchandises::merchTypes cars::LoadCar::getMerchType() const {
     // impossible if the car is destroyed
-    if (isDestroyed()) throw DestroyedCarError(this);
+    if (isDestroyed()) throw DestroyedCarError();
 
     return merchType;
 }
 
 merchandises::MerchLoad cars::LoadCar::getMerchLoad() const {
     // impossible if the car is destroyed
-    if (isDestroyed()) throw DestroyedCarError(this);
+    if (isDestroyed()) throw DestroyedCarError();
 
     // if (empty) return;
 
@@ -132,14 +127,14 @@ merchandises::MerchLoad cars::LoadCar::getMerchLoad() const {
 
 bool cars::LoadCar::isEmpty() const {
     // impossible if the car is destroyed
-    if (isDestroyed()) throw DestroyedCarError(this);
+    if (isDestroyed()) throw DestroyedCarError();
 
     return empty;
 }
 
 bool cars::LoadCar::isFull() const {
     // impossible if the car is destroyed
-    if (isDestroyed()) throw DestroyedCarError(this);
+    if (isDestroyed()) throw DestroyedCarError();
 
     if (empty) return false;
 
@@ -168,14 +163,17 @@ void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad) {
 }
 
 void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad, const std::size_t quantity) {
+    // TODO remove this
+    const merchandises::MerchLoad* otherMerchLoadP = &otherMerchLoad;
+
     // impossible if the car is destroyed
-    if (isDestroyed()) throw DestroyedCarError(this);
+    if (isDestroyed()) throw DestroyedCarError();
 
     // check the merch load can be loaded at all
-    if (!canLoad(otherMerchLoad)) throw std::runtime_error("Cannot load this load");
+    if (!canLoad(otherMerchLoad)) throw CannotLoadError();
 
     // check there is enouth free space
-    if (getRemainingQuantity() < quantity) throw std::runtime_error("Quantity larger than remaining");
+    if (getRemainingQuantity() < quantity) throw NotEnoughSpaceError();
 
     // load it to the car
     otherMerchLoad.substract(quantity);
@@ -193,16 +191,26 @@ void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad, const std::siz
 
 void cars::LoadCar::unLoad(const std::size_t quantity) {
     // impossible if the car is destroyed
-    if (isDestroyed()) throw DestroyedCarError(this);
+    if (isDestroyed()) throw DestroyedCarError();
 
     // check the quantity is not more than current one
-    if (quantity > merchLoad.getQuantity()) {
-        throw std::runtime_error("Quantity fewer than requested");
-    }
+    if (quantity > merchLoad.getQuantity()) throw NotEnoughLoadError();
 
     // unload it from the car
     merchLoad.substract(quantity);
 
     // check emptyness
     if (merchLoad.getQuantity() == 0) empty = true;
+}
+
+const char* cars::CannotLoadError::what() const throw () {
+    return "Car cannot load this merch";
+}
+
+const char* cars::NotEnoughSpaceError::what() const throw () {
+    return "Car cannot load this merch load: not enough space";
+}
+
+const char* cars::NotEnoughLoadError::what() const throw() {
+    return "Car cannot unload this merch load: not enough load";
 }

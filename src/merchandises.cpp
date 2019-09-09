@@ -1,8 +1,3 @@
-#include <stdexcept>
-#include <iostream>
-
-#include <boost/format.hpp>
-
 #include "merchandises.hpp"
 
 merchandises::Merch::Merch() :
@@ -67,7 +62,7 @@ void merchandises::MerchLoad::add(const std::size_t otherQuantity, const std::si
 
 void merchandises::MerchLoad::add(const MerchLoad& other) {
     // check the merchs are the same
-    if (!hasSameMerch(other)) throw NotSameMerchError(merch, other.merch);
+    if (!hasSameMerch(other)) throw NotSameMerchError();
 
     add(other.quantity, other.price);
 }
@@ -78,16 +73,11 @@ void merchandises::MerchLoad::substract(const std::size_t otherQuantity) {
 
 void merchandises::MerchLoad::substract(const MerchLoad& other) {
     // check the merchs are the same
-    if (!hasSameMerch(other)) throw NotSameMerchError(merch, other.merch);
+    if (!hasSameMerch(other)) throw NotSameMerchError();
 
     substract(other.quantity);
 }
 
-merchandises::NotSameMerchError::NotSameMerchError(const Merch& merch1, const Merch& merch2) :
-    merch1(merch1), merch2(merch2) {}
-
 const char* merchandises::NotSameMerchError::what() const throw() {
-    const char* message = (boost::format("Merchs are different: %1%, %2%") % merch1.getName() %
-                           merch2.getName()).str().c_str();
-    return message;
+    return "Merchs are different";
 }

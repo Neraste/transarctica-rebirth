@@ -111,19 +111,7 @@ class Car {
 /**
  * Error class used when trying to modify or querry a destroyed car.
  */
-class DestroyedCarError : public std::exception {
-    /**
-     * Destroyed car.
-     */
-    const Car* car;
-
-  public:
-
-    /**
-     * Usual constructor.
-     * @param car Destroyed car.
-     */
-    DestroyedCarError(const Car* car);
+struct DestroyedCarError : public std::exception {
 
     /**
      * Error message.
@@ -302,6 +290,40 @@ class LoadCar : public Car {
      * @param quantity Quantity of load to unload.
      */
     void unLoad(const std::size_t quantity);
+};
+
+/**
+ * Error class used when a load cannot be loaded in the car.
+ */
+struct CannotLoadError : public std::exception {
+    /**
+     * Error message.
+     * @return Error message.
+     */
+    const char* what() const throw();
+
+};
+
+/**
+ * Error class used when there is not enough space in the car.
+ */
+struct NotEnoughSpaceError : public std::exception {
+    /**
+     * Error message.
+     * @return Error message.
+     */
+    const char* what() const throw();
+};
+
+/**
+ * Error class used when there is not enough load in the car.
+ */
+struct NotEnoughLoadError : public std::exception {
+    /**
+     * Error message.
+     * @return Error message.
+     */
+    const char* what() const throw();
 };
 
 }
