@@ -23,6 +23,7 @@ add_library(gameplay
         src/cars.cpp include/cars.hpp
 )
 target_include_directories(gameplay PUBLIC include)
+target_compile_features(gameplay PUBLIC cxx_std_11)
 
 # test executable
 add_executable(unit
@@ -34,6 +35,7 @@ target_include_directories(unit PUBLIC include)
 target_compile_definitions(unit PUBLIC
         BOOST_TEST_DYN_LINK
 )
+target_compile_features(unit PUBLIC cxx_std_11)
 target_link_libraries(unit
         Boost::unit_test_framework
         gameplay

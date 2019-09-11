@@ -13,7 +13,7 @@ enum merchTypes {
     /**
      * Null type.
      */
-    none,
+    null,
 
     /**
      * Can be stored in a box.
@@ -37,6 +37,11 @@ enum merchTypes {
 };
 
 /**
+ * Shorthand for null merch type.
+ */
+const auto nullMerchType = merchTypes::null;
+
+/**
  * Merch object.
  */
 class Merch {
@@ -54,7 +59,7 @@ class Merch {
      * Type of the merchandise.
      * Used to find cars that can store this merch.
      */
-    merchTypes type;
+    const merchTypes& type;
 
   public:
 
@@ -69,7 +74,9 @@ class Merch {
      * @param name Human-readable name of the merch.
      * @param type Type of the merch.
      */
-    Merch(const std::size_t id, const std::string name, const merchTypes type);
+    Merch(const std::size_t id, const std::string name, const merchTypes& type);
+
+    // Merch& operator=(const Merch&);
 
     /**
      * Equality operator.
@@ -77,7 +84,7 @@ class Merch {
      * @param other Other merch to compare to.
      * @return True if the argument is equal to the current object.
      */
-    bool operator ==(const Merch& other);
+    bool operator ==(const Merch& other) const;
 
     /**
      * Iniquality operator.
@@ -85,7 +92,7 @@ class Merch {
      * @param other Other merch to compare to.
      * @return False if the argument is equal to the current object.
      */
-    bool operator !=(const Merch& other);
+    bool operator !=(const Merch& other) const;
 
     /**
      * Getter for ID.
@@ -103,8 +110,13 @@ class Merch {
      * Getter for type.
      * @return Type of the merch.
      */
-    merchTypes getType() const;
+    const merchTypes& getType() const;
 };
+
+/**
+ * Shorthand for null merch.
+ */
+const Merch nullMerch;
 
 /**
  * Load of merch object.
@@ -113,7 +125,7 @@ class MerchLoad {
     /**
      * Merchandise.
      */
-    Merch merch;
+    const Merch& merch;
 
     /**
      * Quantity of merchandise.
@@ -141,10 +153,15 @@ class MerchLoad {
     MerchLoad(const Merch& merch, const std::size_t quantity, const std::size_t price);
 
     /**
+     * Definition operator.
+     */
+    MerchLoad& operator=(const MerchLoad& otherMerchLoad) = delete;
+
+    /**
      * Getter for merch.
      * @return Merch of the load.
      */
-    Merch getMerch() const;
+    const Merch& getMerch() const;
 
     /**
      * Getter for quantity.

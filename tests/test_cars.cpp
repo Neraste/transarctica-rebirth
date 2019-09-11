@@ -96,6 +96,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     BOOST_TEST(cargo2.getWeight() == 200, tt::tolerance(0.01));
     BOOST_TEST(cargo2.getMaxQuantity() == 60);
     BOOST_TEST(cargo2.getMerchType() == lumber.getType());
+    BOOST_CHECK_THROW(cargo2.getMerchLoad(), cars::IsEmptyError);
     BOOST_TEST(cargo2.getRemainingQuantity() == 60);
     BOOST_TEST(cargo2.isEmpty());
     BOOST_TEST(!cargo2.isFull());
@@ -115,12 +116,13 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     BOOST_TEST(cargo4.getWeight() == 250, tt::tolerance(0.01));
     BOOST_TEST(cargo4.getMaxQuantity() == 100);
     BOOST_TEST(cargo4.getMerchType() == lumber.getType());
+    BOOST_CHECK_THROW(cargo4.getMerchLoad(), cars::IsEmptyError);
     BOOST_TEST(cargo4.getRemainingQuantity() == 100);
     BOOST_TEST(cargo4.isEmpty());
     BOOST_TEST(!cargo4.isFull());
 
     // create a destroyed car
-    cars::LoadCar cargo5(1, "cargo", 0, 100, 50, lumber.getType(), lumberLoad);
+    cars::LoadCar cargo5(5, "cargo", 0, 100, 50, lumber.getType(), lumberLoad);
     BOOST_TEST(cargo5.getWeight() == 100, tt::tolerance(0.01));
     BOOST_CHECK_THROW(cargo5.getMaxQuantity(), cars::DestroyedCarError);
     BOOST_CHECK_THROW(cargo5.getMerchType(), cars::DestroyedCarError);
@@ -131,9 +133,12 @@ BOOST_AUTO_TEST_CASE(testGetters) {
 
     // create car with too much load
     merchandises::MerchLoad anotherLumberLoad(lumber, 100, 100);
-    cars::LoadCar cargo6;
-    BOOST_CHECK_THROW((cargo6 = cars::LoadCar(3, "cargo", 150, 10, lumber.getType(),
-                                anotherLumberLoad)), cars::NotEnoughSpaceError);
+    BOOST_CHECK_THROW(
+        ([lumber, anotherLumberLoad]()->void {
+            cars::LoadCar cargo6(3, "cargo", 150, 10, lumber.getType(), anotherLumberLoad);
+        }()),
+        cars::NotEnoughSpaceError
+    );
 }
 
 BOOST_AUTO_TEST_CASE(testCanLoad) {

@@ -1,17 +1,24 @@
 #include "merchandises.hpp"
 
 merchandises::Merch::Merch() :
-    id(0), name(""), type(merchTypes::none) {}
+    id(0), name("null"), type(merchandises::nullMerchType) {}
 
-merchandises::Merch::Merch(std::size_t id, std::string name, merchTypes type) :
+merchandises::Merch::Merch(const std::size_t id, const std::string name, const merchTypes& type) :
     id(id), name(name), type(type) {}
 
-bool merchandises::Merch::operator ==(const Merch& other) {
+// merchandises::Merch& merchandises::Merch::operator=(const Merch& other) {
+//     id = other.id;
+//     name = other.name;
+//     type = other.type;
+//     return *this;
+// }
+
+bool merchandises::Merch::operator ==(const Merch& other) const {
     return (id == other.id);
 }
 
-bool merchandises::Merch::operator !=(const Merch& other) {
-    return !(*this == other);
+bool merchandises::Merch::operator !=(const Merch& other) const {
+    return (id != other.id);
 }
 
 std::size_t merchandises::Merch::getId() const {
@@ -22,18 +29,18 @@ std::string merchandises::Merch::getName() const {
     return name;
 }
 
-merchandises::merchTypes merchandises::Merch::getType() const {
+const merchandises::merchTypes& merchandises::Merch::getType() const {
     return type;
 }
 
 merchandises::MerchLoad::MerchLoad() :
-    merch(Merch()), quantity(0), price(0) {}
+    merch(merchandises::nullMerch), quantity(0), price(0) {}
 
 merchandises::MerchLoad::MerchLoad(const Merch& merch, const std::size_t quantity,
                                    const std::size_t price) :
     merch(merch), quantity(quantity), price(price) {}
 
-merchandises::Merch merchandises::MerchLoad::getMerch() const {
+const merchandises::Merch& merchandises::MerchLoad::getMerch() const {
     return merch;
 }
 

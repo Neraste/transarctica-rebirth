@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <string>
+#include <vector>
 
 #include "merchandises.hpp"
 
@@ -137,6 +138,7 @@ class NormalCar : public Car {
 
 /**
  * Car that accept a load.
+ * A load car cannot be redefined after being constructed.
  */
 class LoadCar : public Car {
   protected:
@@ -149,17 +151,12 @@ class LoadCar : public Car {
     /**
      * Type of merch accepted.
      */
-    merchandises::merchTypes merchType;
+    const merchandises::merchTypes& merchType;
 
     /**
-     * If the car is empty.
+     * Merchandise container.
      */
-    bool empty;
-
-    /**
-     * Merchandise load.
-     */
-    merchandises::MerchLoad merchLoad;
+    std::vector<merchandises::MerchLoad> merchContainer;
 
     /**
      * Setter for merch load.
@@ -184,8 +181,8 @@ class LoadCar : public Car {
      * @param merchLoad Load in the car.
      */
     LoadCar(const std::size_t id, const std::string name, const int health, const float weight,
-            const std::size_t maxQuantity, const merchandises::merchTypes merchType,
-            merchandises::MerchLoad& merchLoad);
+            const std::size_t maxQuantity, const merchandises::merchTypes& merchType,
+            const merchandises::MerchLoad& merchLoad);
 
     /**
      * Usual constructor for empty car.
@@ -197,7 +194,7 @@ class LoadCar : public Car {
      * @param merchType Type of merch accepted in the car.
      */
     LoadCar(const std::size_t id, const std::string name, const int health, const float weight,
-            const std::size_t maxQuantity, const merchandises::merchTypes merchType);
+            const std::size_t maxQuantity, const merchandises::merchTypes& merchType);
 
     /**
      * Usual constructor for car with full health points.
@@ -209,8 +206,8 @@ class LoadCar : public Car {
      * @param merchLoad Load in the car.
      */
     LoadCar(const std::size_t id, const std::string name, const float weight,
-            const std::size_t maxQuantity, const merchandises::merchTypes merchType,
-            merchandises::MerchLoad& merchLoad);
+            const std::size_t maxQuantity, const merchandises::merchTypes& merchType,
+            const merchandises::MerchLoad& merchLoad);
 
     /**
      * Usual constructor for empty car with full health points.
@@ -221,7 +218,7 @@ class LoadCar : public Car {
      * @param merchType Type of merch accepted in the car.
      */
     LoadCar(const std::size_t id, const std::string name, const float weight,
-            const std::size_t maxQuantity, const merchandises::merchTypes merchType);
+            const std::size_t maxQuantity, const merchandises::merchTypes& merchType);
 
     /**
      * Getter for weight.
@@ -245,13 +242,13 @@ class LoadCar : public Car {
      * Getter for accepted merch type.
      * @return Type of merch accepted in the car.
      */
-    merchandises::merchTypes getMerchType() const;
+    const merchandises::merchTypes& getMerchType() const;
 
     /**
      * Getter for merch load.
      * @return Load in the car.
      */
-    merchandises::MerchLoad getMerchLoad() const;
+    const merchandises::MerchLoad& getMerchLoad() const;
 
     /**
      * Tell if the car is empty.
@@ -319,6 +316,17 @@ struct NotEnoughSpaceError : public std::exception {
  * Error class used when there is not enough load in the car.
  */
 struct NotEnoughLoadError : public std::exception {
+    /**
+     * Error message.
+     * @return Error message.
+     */
+    const char* what() const throw();
+};
+
+/**
+ * Error class when the car is empty.
+ */
+struct IsEmptyError : public std::exception {
     /**
      * Error message.
      * @return Error message.

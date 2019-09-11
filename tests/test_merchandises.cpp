@@ -14,10 +14,10 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     BOOST_TEST(lumber.getType() == merchandises::merchTypes::box);
 
     // create merch with default constructor
-    merchandises::Merch none;
-    BOOST_TEST(none.getId() == 0);
-    BOOST_TEST(none.getName() == "");
-    BOOST_TEST(none.getType() == merchandises::merchTypes::none);
+    merchandises::Merch nullMerch;
+    BOOST_TEST(nullMerch.getId() == 0);
+    BOOST_TEST(nullMerch.getName() == "null");
+    BOOST_TEST(nullMerch.getType() == merchandises::merchTypes::null);
 }
 
 BOOST_AUTO_TEST_CASE(testEquality) {
@@ -29,8 +29,8 @@ BOOST_AUTO_TEST_CASE(testEquality) {
     BOOST_TEST((lumber != fish));
 
     // create merch with default constructor
-    merchandises::Merch none;
-    BOOST_TEST((lumber != none));
+    merchandises::Merch nullMerch;
+    BOOST_TEST((lumber != nullMerch));
 }
 
 BOOST_AUTO_TEST_SUITE_END() // merch
