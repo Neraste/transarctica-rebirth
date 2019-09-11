@@ -234,6 +234,12 @@ class LoadCar : public Car {
     types::quantity getMaxQuantity() const;
 
     /**
+     * Getter for quantity currently loaded.
+     * @return Current quantity in the car.
+     */
+    types::quantity getQuantity() const;
+
+    /**
      * Getter for remaining space in car.
      * @return Current capacity of the car.
      */

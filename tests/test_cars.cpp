@@ -194,6 +194,7 @@ BOOST_AUTO_TEST_CASE(testLoad) {
     cars::LoadCar cargo(1, "cargo", 100, 25, merchandises::merchTypes::box);
     BOOST_TEST(cargo.isEmpty());
     BOOST_TEST(cargo.getWeight() == 100, tt::tolerance(0.01));
+    BOOST_TEST(cargo.getQuantity() == 0);
     BOOST_TEST(cargo.getRemainingQuantity() == 25);
 
     // load 10 oil in the car and get exception
@@ -202,6 +203,7 @@ BOOST_AUTO_TEST_CASE(testLoad) {
     // load 10 lumber in the car
     cargo.load(lumberInCity, 10);
     BOOST_TEST(!cargo.isEmpty());
+    BOOST_TEST(cargo.getQuantity() == 10);
     BOOST_TEST(cargo.getRemainingQuantity() == 15);
     BOOST_TEST(cargo.getMerchLoad().getQuantity() == 10);
     BOOST_TEST(cargo.getWeight() == 110, tt::tolerance(0.01));
@@ -209,6 +211,7 @@ BOOST_AUTO_TEST_CASE(testLoad) {
 
     // load 10 more lumber in the car
     cargo.load(lumberInCity, 10);
+    BOOST_TEST(cargo.getQuantity() == 20);
     BOOST_TEST(cargo.getRemainingQuantity() == 5);
     BOOST_TEST(cargo.getMerchLoad().getQuantity() == 20);
     BOOST_TEST(cargo.getWeight() == 120, tt::tolerance(0.01));

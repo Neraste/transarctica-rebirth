@@ -96,7 +96,7 @@ types::weight cars::LoadCar::getWeight() const {
 
     // base weight + load weight
     // 1 quantity is 1 ton
-    return weight + merchContainer.at(0).getQuantity();
+    return weight + getQuantity();
 }
 
 types::quantity cars::LoadCar::getMaxQuantity() const {
@@ -106,13 +106,23 @@ types::quantity cars::LoadCar::getMaxQuantity() const {
     return maxQuantity;
 }
 
+types::quantity cars::LoadCar::getQuantity() const {
+    // impossible if the car is destroyed
+    if (isDestroyed()) throw DestroyedCarError();
+
+    // nothing if empty
+    if (isEmpty()) return 0;
+
+    return merchContainer.at(0).getQuantity();
+}
+
 types::quantity cars::LoadCar::getRemainingQuantity() const {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
     if (isEmpty()) return maxQuantity;
 
-    return maxQuantity - merchContainer.at(0).getQuantity();
+    return maxQuantity - getQuantity();
 }
 
 const merchandises::merchTypes& cars::LoadCar::getMerchType() const {
@@ -196,13 +206,13 @@ void cars::LoadCar::unLoad(const types::quantity quantity) {
     if (isDestroyed()) throw DestroyedCarError();
 
     // check the quantity is not more than current one
-    if (quantity > merchContainer.at(0).getQuantity()) throw NotEnoughLoadError();
+    if (quantity > getQuantity()) throw NotEnoughLoadError();
 
     // unload it from the car
     merchContainer.at(0).substract(quantity);
 
     // check emptyness
-    if (merchContainer.at(0).getQuantity() == 0) merchContainer.clear();
+    if (getQuantity() == 0) merchContainer.clear();
 }
 
 const char* cars::CannotLoadError::what() const throw () {
