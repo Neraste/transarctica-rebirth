@@ -344,6 +344,45 @@ struct IsEmptyError : public std::exception {
     const char* what() const throw();
 };
 
+/**
+ * Model for load cars.
+ */
+class LoadCarModel : public LoadCar {
+    using LoadCar::LoadCar;
+
+  public:
+
+    /**
+     * Generate a new load car.
+     * @param health Health points of the car.
+     * @param merchLoad Load in the car.
+     * @return New load car instance.
+     */
+    LoadCar operator()(types::health health, merchandises::MerchLoad& merchLoad) const;
+
+    /**
+     * Generate a new empty load car.
+     * @param health Health points of the car.
+     * @return New load car instance.
+     */
+    LoadCar operator()(types::health health) const;
+
+    /**
+     * Generate a new load car with full health.
+     * @param merchLoad Load in the car.
+     * @return New load car instance.
+     */
+    LoadCar operator()(merchandises::MerchLoad& merchLoad) const;
+
+    /**
+     * Generate a new empty load car with full health.
+     * @return New load car instance.
+     */
+    LoadCar operator()() const;
+};
+
 }
+
+#include "cars_data.hpp"
 
 #endif // ifndef CARS_HPP

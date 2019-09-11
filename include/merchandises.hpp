@@ -228,4 +228,6 @@ struct NotSameMerchError : public std::exception {
 
 }
 
+#include "merchandises_data.hpp"
+
 #endif // ifndef MERCHANDISES_HPP

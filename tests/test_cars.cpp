@@ -260,4 +260,41 @@ BOOST_AUTO_TEST_CASE(testUnLoad) {
 
 BOOST_AUTO_TEST_SUITE_END() // loadCar
 
+BOOST_AUTO_TEST_SUITE(loadCarModel)
+
+BOOST_AUTO_TEST_CASE(testCallOperator) {
+    // create merchs and merch loads
+    merchandises::Merch lumber(100, "lumber", merchandises::merchTypes::box);
+    merchandises::MerchLoad lumberInCity(lumber, 10, 100);
+
+    // create a car model
+    const cars::LoadCarModel Cargo(1, "cargo", 45, 20, merchandises::merchTypes::box);
+
+    // create an empty cargo with full health from car model
+    cars::LoadCar cargo1 = Cargo();
+    BOOST_TEST(cargo1.getName() == "cargo");
+    BOOST_TEST(cargo1.isEmpty());
+    BOOST_TEST(cargo1.getHealth() == cars::Car::maxHealth);
+
+    // create an empty cargo from car model
+    cars::LoadCar cargo2 = Cargo(50);
+    BOOST_TEST(cargo2.getName() == "cargo");
+    BOOST_TEST(cargo2.isEmpty());
+    BOOST_TEST(cargo2.getHealth() == 50);
+
+    // create a cargo with full health from car model
+    cars::LoadCar cargo3 = Cargo(lumberInCity);
+    BOOST_TEST(cargo3.getName() == "cargo");
+    BOOST_TEST(!cargo3.isEmpty());
+    BOOST_TEST(cargo3.getHealth() == cars::Car::maxHealth);
+
+    // create a cargo from car model
+    cars::LoadCar cargo4 = Cargo(50, lumberInCity);
+    BOOST_TEST(cargo4.getName() == "cargo");
+    BOOST_TEST(!cargo4.isEmpty());
+    BOOST_TEST(cargo4.getHealth() == 50);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // loadCarModel
+
 BOOST_AUTO_TEST_SUITE_END() // cars

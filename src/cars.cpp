@@ -235,3 +235,19 @@ const char* cars::NotEnoughLoadError::what() const throw() {
 const char* cars::IsEmptyError::what() const throw() {
     return "Car is empty";
 }
+
+cars::LoadCar cars::LoadCarModel::operator()(types::health requestedHealth, merchandises::MerchLoad& requestedMerchLoad) const {
+    return LoadCar(id, name, requestedHealth, weight, maxQuantity, merchType, requestedMerchLoad);
+}
+
+cars::LoadCar cars::LoadCarModel::operator()(types::health requestedHealth) const {
+    return LoadCar(id, name, requestedHealth, weight, maxQuantity, merchType);
+}
+
+cars::LoadCar cars::LoadCarModel::operator()(merchandises::MerchLoad& requestedMerchLoad) const {
+    return LoadCar(id, name, weight, maxQuantity, merchType, requestedMerchLoad);
+}
+
+cars::LoadCar cars::LoadCarModel::operator()() const {
+    return LoadCar(id, name, weight, maxQuantity, merchType);
+}
