@@ -1,9 +1,9 @@
 #ifndef MERCHANDISES_HPP
 #define MERCHANDISES_HPP
 
-#include <exception>
 #include <string>
 
+#include "exceptions.hpp"
 #include "types.hpp"
 
 namespace merchandises {
@@ -218,7 +218,7 @@ class MerchLoad {
 /**
  * Error class used when trying to manipulate two loads of different merch.
  */
-struct NotSameMerchError : public std::exception {
+struct NotSameMerchError : public exceptions::TransarcticaRebirthError {
     /**
      * Get exception message.
      * @return Error message.

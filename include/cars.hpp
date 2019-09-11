@@ -1,10 +1,10 @@
 #ifndef CARS_HPP
 #define CARS_HPP
 
-#include <exception>
 #include <string>
 #include <vector>
 
+#include "exceptions.hpp"
 #include "merchandises.hpp"
 #include "types.hpp"
 
@@ -114,7 +114,7 @@ class Car {
 /**
  * Error class used when trying to modify or querry a destroyed car.
  */
-struct DestroyedCarError : public std::exception {
+struct DestroyedCarError : public exceptions::TransarcticaRebirthError {
 
     /**
      * Error message.
@@ -302,7 +302,7 @@ class LoadCar : public Car {
 /**
  * Error class used when a load cannot be loaded in the car.
  */
-struct CannotLoadError : public std::exception {
+struct CannotLoadError : public exceptions::TransarcticaRebirthError {
     /**
      * Error message.
      * @return Error message.
@@ -314,7 +314,7 @@ struct CannotLoadError : public std::exception {
 /**
  * Error class used when there is not enough space in the car.
  */
-struct NotEnoughSpaceError : public std::exception {
+struct NotEnoughSpaceError : public exceptions::TransarcticaRebirthError {
     /**
      * Error message.
      * @return Error message.
@@ -325,7 +325,7 @@ struct NotEnoughSpaceError : public std::exception {
 /**
  * Error class used when there is not enough load in the car.
  */
-struct NotEnoughLoadError : public std::exception {
+struct NotEnoughLoadError : public exceptions::TransarcticaRebirthError {
     /**
      * Error message.
      * @return Error message.
@@ -336,7 +336,7 @@ struct NotEnoughLoadError : public std::exception {
 /**
  * Error class when the car is empty.
  */
-struct IsEmptyError : public std::exception {
+struct IsEmptyError : public exceptions::TransarcticaRebirthError {
     /**
      * Error message.
      * @return Error message.
