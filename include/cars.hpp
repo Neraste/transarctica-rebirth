@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "merchandises.hpp"
+#include "types.hpp"
 
 namespace cars {
 
@@ -19,7 +20,7 @@ class Car {
     /**
      * ID of the car.
      */
-    std::size_t id;
+    types::id id;
 
     /**
      * Human-readable name of the car.
@@ -30,13 +31,13 @@ class Car {
      * Health points.
      * The car is destroyed if the value is lower than or equal to 0.
      */
-    int health;
+    types::health health;
 
     /**
      * Base weight of the car.
      * It does not include weight of the payload.
      */
-    float weight;
+    types::weight weight;
 
   public:
 
@@ -52,7 +53,7 @@ class Car {
      * @param health Health points of the car.
      * @param weight Base weight of the car.
      */
-    Car(const size_t id, const std::string name, const int health, const float weight);
+    Car(const types::id id, const std::string name, const types::health health, const types::weight weight);
 
     /**
      * Usual constructor with maximum health.
@@ -60,18 +61,18 @@ class Car {
      * @param name Human-readable name of the car.
      * @param weight Base weight of the car.
      */
-    Car(const size_t id, const std::string name, const float weight);
+    Car(const types::id id, const std::string name, const types::weight weight);
 
     /**
      * Maximum health points.
      */
-    const static int maxHealth;
+    const static types::health maxHealth;
 
     /**
      * Getter for ID.
      * @return ID of the car.
      */
-    std::size_t getId() const;
+    types::id getId() const;
 
     /**
      * Getter for name.
@@ -83,13 +84,13 @@ class Car {
      * Getter for health points.
      * @return Health points of the car.
      */
-    int getHealth() const;
+    types::health getHealth() const;
 
     /**
      * Getter for weight.
      * @return Total weight of the car.
      */
-    virtual float getWeight() const = 0;
+    virtual types::weight getWeight() const = 0;
 
     /**
      * Indicate if the car is destroyed.
@@ -101,7 +102,7 @@ class Car {
      * Take dammage.
      * @param attack Value of the attack.
      */
-    void takeDammage(int attack);
+    void takeDammage(types::health attack);
 
     /**
      * Repair car and restore full helth points.
@@ -133,7 +134,7 @@ class NormalCar : public Car {
      * Getter for weight.
      * It simply returns the base weight.
      */
-    float getWeight() const;
+    types::weight getWeight() const;
 };
 
 /**
@@ -146,7 +147,7 @@ class LoadCar : public Car {
     /**
      * Maximum quantity of merchandise loads.
      */
-    std::size_t maxQuantity;
+      types::quantity maxQuantity;
 
     /**
      * Type of merch accepted.
@@ -180,8 +181,8 @@ class LoadCar : public Car {
      * @param merchType Type of merch accepted in the car.
      * @param merchLoad Load in the car.
      */
-    LoadCar(const std::size_t id, const std::string name, const int health, const float weight,
-            const std::size_t maxQuantity, const merchandises::merchTypes& merchType,
+    LoadCar(const types::id id, const std::string name, const types::health health, const types::weight weight,
+            const types::quantity maxQuantity, const merchandises::merchTypes& merchType,
             const merchandises::MerchLoad& merchLoad);
 
     /**
@@ -193,8 +194,8 @@ class LoadCar : public Car {
      * @param maxQuantity Capacity of the car.
      * @param merchType Type of merch accepted in the car.
      */
-    LoadCar(const std::size_t id, const std::string name, const int health, const float weight,
-            const std::size_t maxQuantity, const merchandises::merchTypes& merchType);
+    LoadCar(const types::id id, const std::string name, const types::health health, const types::weight weight,
+            const types::quantity maxQuantity, const merchandises::merchTypes& merchType);
 
     /**
      * Usual constructor for car with full health points.
@@ -205,8 +206,8 @@ class LoadCar : public Car {
      * @param merchType Type of merch accepted in the car.
      * @param merchLoad Load in the car.
      */
-    LoadCar(const std::size_t id, const std::string name, const float weight,
-            const std::size_t maxQuantity, const merchandises::merchTypes& merchType,
+    LoadCar(const types::id id, const std::string name, const types::weight weight,
+            const types::quantity maxQuantity, const merchandises::merchTypes& merchType,
             const merchandises::MerchLoad& merchLoad);
 
     /**
@@ -217,26 +218,26 @@ class LoadCar : public Car {
      * @param maxQuantity Capacity of the car.
      * @param merchType Type of merch accepted in the car.
      */
-    LoadCar(const std::size_t id, const std::string name, const float weight,
-            const std::size_t maxQuantity, const merchandises::merchTypes& merchType);
+    LoadCar(const types::id id, const std::string name, const types::weight weight,
+            const types::quantity maxQuantity, const merchandises::merchTypes& merchType);
 
     /**
      * Getter for weight.
      * @return Base weight of the car and the weight of the load.
      */
-    float getWeight() const;
+    types::weight getWeight() const;
 
     /**
      * Getter for max quantity of merch load.
      * @return Total capacity of the car.
      */
-    std::size_t getMaxQuantity() const;
+    types::quantity getMaxQuantity() const;
 
     /**
      * Getter for remaining space in car.
      * @return Current capacity of the car.
      */
-    std::size_t getRemainingQuantity() const;
+    types::quantity getRemainingQuantity() const;
 
     /**
      * Getter for accepted merch type.
@@ -280,13 +281,13 @@ class LoadCar : public Car {
      * @param merchLoad Load to load in the car.
      * @param quantity Quantity of load to load only.
      */
-    void load(merchandises::MerchLoad& merchLoad, const std::size_t quantity);
+    void load(merchandises::MerchLoad& merchLoad, const types::quantity quantity);
 
     /**
      * Unload merch loads from the car.
      * @param quantity Quantity of load to unload.
      */
-    void unLoad(const std::size_t quantity);
+    void unLoad(const types::quantity quantity);
 };
 
 /**

@@ -4,6 +4,8 @@
 #include <exception>
 #include <string>
 
+#include "types.hpp"
+
 namespace merchandises {
 
 /**
@@ -48,7 +50,7 @@ class Merch {
     /**
      * ID of the merchandise.
      */
-    std::size_t id;
+    types::id id;
 
     /**
      * Human-readable name of the merchandise.
@@ -74,7 +76,7 @@ class Merch {
      * @param name Human-readable name of the merch.
      * @param type Type of the merch.
      */
-    Merch(const std::size_t id, const std::string name, const merchTypes& type);
+    Merch(const types::id id, const std::string name, const merchTypes& type);
 
     // Merch& operator=(const Merch&);
 
@@ -98,7 +100,7 @@ class Merch {
      * Getter for ID.
      * @return ID of the merch.
      */
-    std::size_t getId() const;
+    types::id getId() const;
 
     /**
      * Getter for name.
@@ -130,12 +132,12 @@ class MerchLoad {
     /**
      * Quantity of merchandise.
      */
-    std::size_t quantity;
+    types::quantity quantity;
 
     /**
      * Price.
      */
-    std::size_t price;
+    types::price price;
 
   public:
 
@@ -150,12 +152,7 @@ class MerchLoad {
      * @param quantity Quantity of merch in the load.
      * @param price Average price of the load.
      */
-    MerchLoad(const Merch& merch, const std::size_t quantity, const std::size_t price);
-
-    /**
-     * Definition operator.
-     */
-    MerchLoad& operator=(const MerchLoad& otherMerchLoad) = delete;
+    MerchLoad(const Merch& merch, const types::quantity quantity, const types::price price);
 
     /**
      * Getter for merch.
@@ -167,13 +164,13 @@ class MerchLoad {
      * Getter for quantity.
      * @return Quantity of merch in the load.
      */
-    std::size_t getQuantity() const;
+    types::quantity getQuantity() const;
 
     /**
      * Getter for price.
      * @return Average price of the load.
      */
-    std::size_t getPrice() const;
+    types::price getPrice() const;
 
     /**
      * Add merchandise loads.
@@ -181,7 +178,7 @@ class MerchLoad {
      * @param otherPrice Average price of the quantity to add. The final price
      * will be the weighted average of the prices.
      */
-    void add(const std::size_t otherQuantity, const std::size_t otherPrice);
+    void add(const types::quantity otherQuantity, const types::price otherPrice);
 
     /**
      * Add merchandise loads.
@@ -193,7 +190,7 @@ class MerchLoad {
      * Substract mechandise loads.
      * @param otherQuantity Quantity to substract to the load.
      */
-    void substract(const std::size_t otherQuantity);
+    void substract(const types::quantity otherQuantity);
 
     /**
      * Substract mechandise loads.

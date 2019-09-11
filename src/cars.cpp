@@ -1,18 +1,18 @@
 #include "cars.hpp"
 
-const int cars::Car::maxHealth = 100;
+const types::health cars::Car::maxHealth = 100;
 
 cars::Car::Car() :
     id(0), name(""), health(maxHealth), weight(0) {}
 
-cars::Car::Car(const size_t id, const std::string name, const int health,
-               const float weight) :
+cars::Car::Car(const types::id id, const std::string name, const types::health health,
+               const types::weight weight) :
     id(id), name(name), health(health), weight(weight) {}
 
-cars::Car::Car(const size_t id, const std::string name, const float weight) :
+cars::Car::Car(const types::id id, const std::string name, const types::weight weight) :
     id(id), name(name), health(maxHealth), weight(weight) {}
 
-std::size_t cars::Car::getId() const {
+types::id cars::Car::getId() const {
     return id;
 }
 
@@ -20,7 +20,7 @@ std::string cars::Car::getName() const {
     return name;
 }
 
-int cars::Car::getHealth() const {
+types::health cars::Car::getHealth() const {
     return health;
 }
 
@@ -28,7 +28,7 @@ bool cars::Car::isDestroyed() const {
     return health <= 0;
 }
 
-void cars::Car::takeDammage(int attack) {
+void cars::Car::takeDammage(types::health attack) {
     if (isDestroyed()) return;
 
     health -= attack;
@@ -45,7 +45,7 @@ const char* cars::DestroyedCarError::what() const throw() {
     return "Car is destroyed";
 }
 
-float cars::NormalCar::getWeight() const {
+types::weight cars::NormalCar::getWeight() const {
     return weight;
 }
 
@@ -53,27 +53,27 @@ cars::LoadCar::LoadCar() :
     Car(), maxQuantity(0), merchType(merchandises::nullMerchType),
     merchContainer(std::vector<merchandises::MerchLoad>()) {}
 
-cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const int health,
-                       const float weight, const std::size_t maxQuantity, const merchandises::merchTypes& merchType,
+cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::health health,
+                       const types::weight weight, const types::quantity maxQuantity, const merchandises::merchTypes& merchType,
                        const merchandises::MerchLoad& otherMerchLoad) :
     Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType), merchContainer(std::vector<merchandises::MerchLoad>()) {
     setMerchLoad(otherMerchLoad);
 }
 
-cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const int health,
-                       const float weight, const std::size_t maxQuantity,
+cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::health health,
+                       const types::weight weight, const types::quantity maxQuantity,
                        const merchandises::merchTypes& merchType) :
     Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType), merchContainer(std::vector<merchandises::MerchLoad>()) {}
 
-cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const float weight,
-                       const std::size_t maxQuantity, const merchandises::merchTypes& merchType,
+cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::weight weight,
+                       const types::quantity maxQuantity, const merchandises::merchTypes& merchType,
                        const merchandises::MerchLoad& otherMerchLoad) :
     Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType), merchContainer(std::vector<merchandises::MerchLoad>()) {
     setMerchLoad(otherMerchLoad);
 }
 
-cars::LoadCar::LoadCar(const std::size_t id, const std::string name, const float weight,
-                       const std::size_t maxQuantity, const merchandises::merchTypes& merchType) :
+cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::weight weight,
+                       const types::quantity maxQuantity, const merchandises::merchTypes& merchType) :
     Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType), merchContainer(std::vector<merchandises::MerchLoad>()) {}
 
 void cars::LoadCar::setMerchLoad(const merchandises::MerchLoad& otherMerchLoad) {
@@ -87,7 +87,7 @@ void cars::LoadCar::setMerchLoad(const merchandises::MerchLoad& otherMerchLoad) 
     merchContainer.push_back(otherMerchLoad);
 }
 
-float cars::LoadCar::getWeight() const {
+types::weight cars::LoadCar::getWeight() const {
     // base weight if car is destroyed
     if (isDestroyed()) return weight;
 
@@ -99,14 +99,14 @@ float cars::LoadCar::getWeight() const {
     return weight + merchContainer.at(0).getQuantity();
 }
 
-std::size_t cars::LoadCar::getMaxQuantity() const {
+types::quantity cars::LoadCar::getMaxQuantity() const {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
     return maxQuantity;
 }
 
-std::size_t cars::LoadCar::getRemainingQuantity() const {
+types::quantity cars::LoadCar::getRemainingQuantity() const {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
@@ -168,7 +168,7 @@ void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad) {
     load(otherMerchLoad, otherMerchLoad.getQuantity());
 }
 
-void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad, const std::size_t quantity) {
+void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad, const types::quantity quantity) {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
@@ -191,7 +191,7 @@ void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad, const std::siz
     }
 }
 
-void cars::LoadCar::unLoad(const std::size_t quantity) {
+void cars::LoadCar::unLoad(const types::quantity quantity) {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
