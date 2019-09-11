@@ -53,7 +53,8 @@ bool merchandises::MerchLoad::hasSameMerch(const Merch& otherMerch) {
     return (merch == otherMerch);
 }
 
-void merchandises::MerchLoad::add(const types::quantity otherQuantity, const types::price otherPrice) {
+void merchandises::MerchLoad::add(const types::quantity otherQuantity,
+                                  const types::price otherPrice) {
     // average the price of the two loads
     price = (quantity * price + otherQuantity * otherPrice) / (quantity + otherQuantity);
     quantity += otherQuantity;

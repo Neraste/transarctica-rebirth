@@ -53,7 +53,8 @@ class Car {
      * @param health Health points of the car.
      * @param weight Base weight of the car.
      */
-    Car(const types::id id, const std::string name, const types::health health, const types::weight weight);
+    Car(const types::id id, const std::string name, const types::health health,
+        const types::weight weight);
 
     /**
      * Usual constructor with maximum health.
@@ -147,7 +148,7 @@ class LoadCar : public Car {
     /**
      * Maximum quantity of merchandise loads.
      */
-      types::quantity maxQuantity;
+    types::quantity maxQuantity;
 
     /**
      * Type of merch accepted.
@@ -181,7 +182,8 @@ class LoadCar : public Car {
      * @param merchType Type of merch accepted in the car.
      * @param merchLoad Load in the car.
      */
-    LoadCar(const types::id id, const std::string name, const types::health health, const types::weight weight,
+    LoadCar(const types::id id, const std::string name, const types::health health,
+            const types::weight weight,
             const types::quantity maxQuantity, const merchandises::merchTypes& merchType,
             const merchandises::MerchLoad& merchLoad);
 
@@ -194,7 +196,8 @@ class LoadCar : public Car {
      * @param maxQuantity Capacity of the car.
      * @param merchType Type of merch accepted in the car.
      */
-    LoadCar(const types::id id, const std::string name, const types::health health, const types::weight weight,
+    LoadCar(const types::id id, const std::string name, const types::health health,
+            const types::weight weight,
             const types::quantity maxQuantity, const merchandises::merchTypes& merchType);
 
     /**

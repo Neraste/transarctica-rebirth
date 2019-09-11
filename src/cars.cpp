@@ -54,27 +54,32 @@ cars::LoadCar::LoadCar() :
     merchContainer(std::vector<merchandises::MerchLoad>()) {}
 
 cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::health health,
-                       const types::weight weight, const types::quantity maxQuantity, const merchandises::merchTypes& merchType,
+                       const types::weight weight, const types::quantity maxQuantity,
+                       const merchandises::merchTypes& merchType,
                        const merchandises::MerchLoad& otherMerchLoad) :
-    Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType), merchContainer(std::vector<merchandises::MerchLoad>()) {
+    Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType),
+    merchContainer(std::vector<merchandises::MerchLoad>()) {
     setMerchLoad(otherMerchLoad);
 }
 
 cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::health health,
                        const types::weight weight, const types::quantity maxQuantity,
                        const merchandises::merchTypes& merchType) :
-    Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType), merchContainer(std::vector<merchandises::MerchLoad>()) {}
+    Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType),
+    merchContainer(std::vector<merchandises::MerchLoad>()) {}
 
 cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::weight weight,
                        const types::quantity maxQuantity, const merchandises::merchTypes& merchType,
                        const merchandises::MerchLoad& otherMerchLoad) :
-    Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType), merchContainer(std::vector<merchandises::MerchLoad>()) {
+    Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType),
+    merchContainer(std::vector<merchandises::MerchLoad>()) {
     setMerchLoad(otherMerchLoad);
 }
 
 cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::weight weight,
                        const types::quantity maxQuantity, const merchandises::merchTypes& merchType) :
-    Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType), merchContainer(std::vector<merchandises::MerchLoad>()) {}
+    Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType),
+    merchContainer(std::vector<merchandises::MerchLoad>()) {}
 
 void cars::LoadCar::setMerchLoad(const merchandises::MerchLoad& otherMerchLoad) {
     // do not set merch load if the load is empty
@@ -194,7 +199,7 @@ void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad, const types::q
     if (isEmpty()) {
         // if the car is empty, load it with the new merch load
         merchContainer.push_back(merchandises::MerchLoad(otherMerchLoad.getMerch(), quantity,
-                                            otherMerchLoad.getPrice()));
+                                 otherMerchLoad.getPrice()));
     } else {
         // otherwise load more merch load
         merchContainer.at(0).add(quantity, otherMerchLoad.getPrice());

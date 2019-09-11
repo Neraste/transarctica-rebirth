@@ -134,10 +134,10 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     // create car with too much load
     merchandises::MerchLoad anotherLumberLoad(lumber, 100, 100);
     BOOST_CHECK_THROW(
-        ([lumber, anotherLumberLoad]()->void {
-            cars::LoadCar cargo6(3, "cargo", 150, 10, lumber.getType(), anotherLumberLoad);
-        }()),
-        cars::NotEnoughSpaceError
+    ([lumber, anotherLumberLoad]()->void {
+        cars::LoadCar cargo6(3, "cargo", 150, 10, lumber.getType(), anotherLumberLoad);
+    }()),
+    cars::NotEnoughSpaceError
     );
 }
 
