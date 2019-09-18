@@ -90,10 +90,33 @@ BOOST_AUTO_TEST_CASE(testAdditions) {
     BOOST_TEST(lumberLoad1.getQuantity() == 20);
     BOOST_TEST(lumberLoad1.getPrice() == 75);
 
+    // add quantity at a certain price
+    lumberLoad1.add(20, 75);
+    BOOST_TEST(lumberLoad1.getQuantity() == 40);
+    BOOST_TEST(lumberLoad1.getPrice() == 75);
+
     // substract them
     lumberLoad1.substract(lumberLoad2);
-    BOOST_TEST(lumberLoad1.getQuantity() == 10);
+    BOOST_TEST(lumberLoad1.getQuantity() == 30);
     BOOST_TEST(lumberLoad1.getPrice() == 75);
+
+    // substract a quantity
+    lumberLoad1.substract(10);
+    BOOST_TEST(lumberLoad1.getQuantity() == 20);
+
+    // split a load
+    merchandises::MerchLoad lumberLoad3 = lumberLoad1.split(lumberLoad2);
+    BOOST_TEST(lumberLoad1.getQuantity() == 10);
+    BOOST_TEST(lumberLoad3.getQuantity() == 10);
+
+    // split a quantity
+    merchandises::MerchLoad lumberLoad4 = lumberLoad1.split(10);
+    BOOST_TEST(lumberLoad1.getQuantity() == 0);
+    BOOST_TEST(lumberLoad4.getQuantity() == 10);
+
+    // substract/split too much
+    BOOST_CHECK_THROW(lumberLoad1.substract(10), merchandises::NotEnoughLoadError);
+    BOOST_CHECK_THROW(lumberLoad1.split(10), merchandises::NotEnoughLoadError);
 }
 
 BOOST_AUTO_TEST_CASE(testAdditionsError) {

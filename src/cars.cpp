@@ -206,7 +206,7 @@ void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad, const types::q
     }
 }
 
-void cars::LoadCar::unLoad(const types::quantity quantity) {
+merchandises::MerchLoad cars::LoadCar::unLoad(const types::quantity quantity) {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
@@ -214,10 +214,12 @@ void cars::LoadCar::unLoad(const types::quantity quantity) {
     if (quantity > getQuantity()) throw NotEnoughLoadError();
 
     // unload it from the car
-    merchContainer.at(0).substract(quantity);
+    merchandises::MerchLoad splittedLoad(merchContainer.at(0).split(quantity));
 
     // check emptyness
     if (getQuantity() == 0) merchContainer.clear();
+
+    return splittedLoad;
 }
 
 const char* cars::CannotLoadError::what() const throw () {
@@ -236,7 +238,8 @@ const char* cars::IsEmptyError::what() const throw() {
     return "Car is empty";
 }
 
-cars::LoadCar cars::LoadCarModel::operator()(types::health requestedHealth, merchandises::MerchLoad& requestedMerchLoad) const {
+cars::LoadCar cars::LoadCarModel::operator()(types::health requestedHealth,
+        merchandises::MerchLoad& requestedMerchLoad) const {
     return LoadCar(id, name, requestedHealth, weight, maxQuantity, merchType, requestedMerchLoad);
 }
 

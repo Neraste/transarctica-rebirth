@@ -199,6 +199,18 @@ class MerchLoad {
     void substract(const MerchLoad& other);
 
     /**
+     * Split merchandise loads in another load.
+     * @param otherQuantity Quantity to split to the load.
+     */
+    MerchLoad split(const types::quantity otherQuantity);
+
+    /**
+     * Split merchandise loads in another load.
+     * @param other Load to split.
+     */
+    MerchLoad split(const MerchLoad& other);
+
+    /**
      * Check two merchandise loads have the same merchandise.
      * @param other Load to compare the merch with.
      * @return True if the two loads have the same merch.
@@ -219,6 +231,17 @@ class MerchLoad {
  * Error class used when trying to manipulate two loads of different merch.
  */
 struct NotSameMerchError : public exceptions::TransarcticaRebirthError {
+    /**
+     * Get exception message.
+     * @return Error message.
+     */
+    const char* what() const throw();
+};
+
+/**
+ * Error class when trying to substract more merch load than possible.
+ */
+struct NotEnoughLoadError : public exceptions::TransarcticaRebirthError {
     /**
      * Get exception message.
      * @return Error message.

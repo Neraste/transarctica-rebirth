@@ -296,7 +296,7 @@ class LoadCar : public Car {
      * Unload merch loads from the car.
      * @param quantity Quantity of load to unload.
      */
-    void unLoad(const types::quantity quantity);
+    merchandises::MerchLoad unLoad(const types::quantity quantity);
 };
 
 /**

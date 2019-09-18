@@ -238,18 +238,20 @@ BOOST_AUTO_TEST_CASE(testUnLoad) {
     BOOST_TEST(cargo.getWeight() == 125, tt::tolerance(0.01));
 
     // unload 10 lumber from the car
-    cargo.unLoad(10);
+    merchandises::MerchLoad lumberUnLoaded1 = cargo.unLoad(10);
     BOOST_TEST(!cargo.isFull());
     BOOST_TEST(cargo.canLoad(lumberInCity));
     BOOST_TEST(cargo.getRemainingQuantity() == 10);
     BOOST_TEST(cargo.getWeight() == 115, tt::tolerance(0.01));
+    BOOST_TEST(lumberUnLoaded1.getQuantity() == 10);
 
     // unload 10 more lumber from the car
-    cargo.unLoad(10);
+    merchandises::MerchLoad lumberUnLoaded2 = cargo.unLoad(10);
     BOOST_TEST(!cargo.isFull());
     BOOST_TEST(cargo.canLoad(lumberInCity));
     BOOST_TEST(cargo.getRemainingQuantity() == 20);
     BOOST_TEST(cargo.getWeight() == 105, tt::tolerance(0.01));
+    BOOST_TEST(lumberUnLoaded2.getQuantity() == 10);
 
     // unload 10 more and get exception
     BOOST_CHECK_THROW(cargo.unLoad(10), cars::NotEnoughLoadError);

@@ -68,16 +68,33 @@ void merchandises::MerchLoad::add(const MerchLoad& other) {
 }
 
 void merchandises::MerchLoad::substract(const types::quantity otherQuantity) {
-    quantity -= otherQuantity;
+    split(otherQuantity);
 }
 
 void merchandises::MerchLoad::substract(const MerchLoad& other) {
+    split(other);
+}
+
+merchandises::MerchLoad merchandises::MerchLoad::split(const types::quantity otherQuantity) {
+    if (otherQuantity > quantity) throw NotEnoughLoadError();
+
+    quantity -= otherQuantity;
+    MerchLoad splittedLoad(merch, otherQuantity, price);
+
+    return splittedLoad;
+}
+
+merchandises::MerchLoad merchandises::MerchLoad::split(const MerchLoad& other) {
     // check the merchs are the same
     if (!hasSameMerch(other)) throw NotSameMerchError();
 
-    substract(other.quantity);
+    return split(other.quantity);
 }
 
 const char* merchandises::NotSameMerchError::what() const throw() {
     return "Merchs are different";
+}
+
+const char* merchandises::NotEnoughLoadError::what() const throw() {
+    return "Not enough merch load to subsract";
 }
