@@ -153,7 +153,7 @@ class LoadCar : public Car {
     /**
      * Type of merch accepted.
      */
-    const merchandises::merchTypes& merchType;
+    const merchandises::MerchTypes& merchType;
 
     /**
      * Merchandise container.
@@ -184,7 +184,7 @@ class LoadCar : public Car {
      */
     LoadCar(const types::id id, const std::string name, const types::health health,
             const types::weight weight,
-            const types::quantity maxQuantity, const merchandises::merchTypes& merchType,
+            const types::quantity maxQuantity, const merchandises::MerchTypes& merchType,
             const merchandises::MerchLoad& merchLoad);
 
     /**
@@ -198,7 +198,7 @@ class LoadCar : public Car {
      */
     LoadCar(const types::id id, const std::string name, const types::health health,
             const types::weight weight,
-            const types::quantity maxQuantity, const merchandises::merchTypes& merchType);
+            const types::quantity maxQuantity, const merchandises::MerchTypes& merchType);
 
     /**
      * Usual constructor for car with full health points.
@@ -210,7 +210,7 @@ class LoadCar : public Car {
      * @param merchLoad Load in the car.
      */
     LoadCar(const types::id id, const std::string name, const types::weight weight,
-            const types::quantity maxQuantity, const merchandises::merchTypes& merchType,
+            const types::quantity maxQuantity, const merchandises::MerchTypes& merchType,
             const merchandises::MerchLoad& merchLoad);
 
     /**
@@ -222,7 +222,7 @@ class LoadCar : public Car {
      * @param merchType Type of merch accepted in the car.
      */
     LoadCar(const types::id id, const std::string name, const types::weight weight,
-            const types::quantity maxQuantity, const merchandises::merchTypes& merchType);
+            const types::quantity maxQuantity, const merchandises::MerchTypes& merchType);
 
     /**
      * Getter for weight.
@@ -252,7 +252,7 @@ class LoadCar : public Car {
      * Getter for accepted merch type.
      * @return Type of merch accepted in the car.
      */
-    const merchandises::merchTypes& getMerchType() const;
+    const merchandises::MerchTypes& getMerchType() const;
 
     /**
      * Getter for merch load.

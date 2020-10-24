@@ -8,23 +8,23 @@ BOOST_AUTO_TEST_SUITE(merch)
 
 BOOST_AUTO_TEST_CASE(testGetters) {
     // create merch with usual constructor
-    merchandises::Merch lumber(1, "lumber", merchandises::merchTypes::box);
+    merchandises::Merch lumber(1, "lumber", merchandises::MerchTypes::box);
     BOOST_TEST(lumber.getId() == 1);
     BOOST_TEST(lumber.getName() == "lumber");
-    BOOST_TEST((lumber.getType() == merchandises::merchTypes::box));
+    BOOST_TEST((lumber.getType() == merchandises::MerchTypes::box));
 
     // create merch with default constructor
     merchandises::Merch nullMerch;
     BOOST_TEST(nullMerch.getId() == 0);
     BOOST_TEST(nullMerch.getName() == "null");
-    BOOST_TEST((nullMerch.getType() == merchandises::merchTypes::null));
+    BOOST_TEST((nullMerch.getType() == merchandises::MerchTypes::null));
 }
 
 BOOST_AUTO_TEST_CASE(testEquality) {
     // create merchs with usual constructor
-    merchandises::Merch lumber(1, "lumber", merchandises::merchTypes::box);
-    merchandises::Merch lumber2(1, "lumber2", merchandises::merchTypes::box);
-    merchandises::Merch fish(2, "fish", merchandises::merchTypes::box);
+    merchandises::Merch lumber(1, "lumber", merchandises::MerchTypes::box);
+    merchandises::Merch lumber2(1, "lumber2", merchandises::MerchTypes::box);
+    merchandises::Merch fish(2, "fish", merchandises::MerchTypes::box);
     BOOST_TEST((lumber == lumber2));
     BOOST_TEST((lumber != fish));
 
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_SUITE(merchLoad)
 
 BOOST_AUTO_TEST_CASE(testGetters) {
     // create merch
-    merchandises::Merch lumber(1, "lumber", merchandises::merchTypes::box);
+    merchandises::Merch lumber(1, "lumber", merchandises::MerchTypes::box);
 
     // create merch load with usual constructor
     merchandises::MerchLoad lumberLoad1(lumber, 10, 100);
@@ -62,8 +62,8 @@ BOOST_AUTO_TEST_CASE(testGetters) {
 
 BOOST_AUTO_TEST_CASE(testSameMerch) {
     // create two merchs
-    merchandises::Merch lumber(1, "lumber", merchandises::merchTypes::box);
-    merchandises::Merch fish(2, "fish", merchandises::merchTypes::box);
+    merchandises::Merch lumber(1, "lumber", merchandises::MerchTypes::box);
+    merchandises::Merch fish(2, "fish", merchandises::MerchTypes::box);
 
     // create merch loads
     merchandises::MerchLoad lumberLoad1(lumber, 10, 100);
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(testSameMerch) {
 
 BOOST_AUTO_TEST_CASE(testAdditions) {
     // create merch
-    merchandises::Merch lumber(1, "lumber", merchandises::merchTypes::box);
+    merchandises::Merch lumber(1, "lumber", merchandises::MerchTypes::box);
 
     // create two merch loads to add
     merchandises::MerchLoad lumberLoad1(lumber, 10, 100);
@@ -121,8 +121,8 @@ BOOST_AUTO_TEST_CASE(testAdditions) {
 
 BOOST_AUTO_TEST_CASE(testAdditionsError) {
     // create two merchs
-    merchandises::Merch lumber(1, "lumber", merchandises::merchTypes::box);
-    merchandises::Merch fish(2, "fish", merchandises::merchTypes::box);
+    merchandises::Merch lumber(1, "lumber", merchandises::MerchTypes::box);
+    merchandises::Merch fish(2, "fish", merchandises::MerchTypes::box);
 
     // create two merch loads
     merchandises::MerchLoad lumberLoad(lumber, 10, 100);

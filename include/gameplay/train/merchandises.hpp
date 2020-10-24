@@ -41,7 +41,7 @@ enum class MerchTypes {
 /**
  * Shorthand for null merch type.
  */
-const auto nullMerchType = merchTypes::null;
+const auto nullMerchType = MerchTypes::null;
 
 /**
  * Merch object.
@@ -61,7 +61,7 @@ class Merch {
      * Type of the merchandise.
      * Used to find cars that can store this merch.
      */
-    const merchTypes& type;
+    const MerchTypes& type;
 
   public:
 
@@ -76,7 +76,7 @@ class Merch {
      * @param name Human-readable name of the merch.
      * @param type Type of the merch.
      */
-    Merch(const types::id id, const std::string name, const merchTypes& type);
+    Merch(const types::id id, const std::string name, const MerchTypes& type);
 
     // Merch& operator=(const Merch&);
 
@@ -112,7 +112,7 @@ class Merch {
      * Getter for type.
      * @return Type of the merch.
      */
-    const merchTypes& getType() const;
+    const MerchTypes& getType() const;
 };
 
 /**

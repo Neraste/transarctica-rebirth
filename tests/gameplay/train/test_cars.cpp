@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_SUITE(loadCar)
 
 BOOST_AUTO_TEST_CASE(testGetters) {
     // create a merch and a merch load
-    merchandises::Merch lumber(1, "lumber", merchandises::merchTypes::box);
+    merchandises::Merch lumber(1, "lumber", merchandises::MerchTypes::box);
     merchandises::MerchLoad lumberLoad(lumber, 10, 100);
 
     // create car with usual constructor
@@ -143,16 +143,16 @@ BOOST_AUTO_TEST_CASE(testGetters) {
 
 BOOST_AUTO_TEST_CASE(testCanLoad) {
     // create merchs and merch loads
-    merchandises::Merch lumber(100, "lumber", merchandises::merchTypes::box);
-    merchandises::Merch fish(101, "fish", merchandises::merchTypes::box);
-    merchandises::Merch oil(102, "oil", merchandises::merchTypes::toxic);
+    merchandises::Merch lumber(100, "lumber", merchandises::MerchTypes::box);
+    merchandises::Merch fish(101, "fish", merchandises::MerchTypes::box);
+    merchandises::Merch oil(102, "oil", merchandises::MerchTypes::toxic);
     merchandises::MerchLoad lumberInCity(lumber, 50, 100);
     merchandises::MerchLoad fishInCity(fish, 30, 10);
     merchandises::MerchLoad oilInCity(oil, 60, 50);
     merchandises::MerchLoad lumberInTrain(lumber, 10, 40);
 
     // create empty cargo car
-    cars::LoadCar emptyCargo(1, "cargo", 100, 25, merchandises::merchTypes::box);
+    cars::LoadCar emptyCargo(1, "cargo", 100, 25, merchandises::MerchTypes::box);
     BOOST_TEST(emptyCargo.isEmpty());
     BOOST_TEST(!emptyCargo.isFull());
     BOOST_TEST(emptyCargo.canLoad(lumberInCity));
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE(testCanLoad) {
     BOOST_TEST(!emptyCargo.canLoad(oilInCity));
 
     // create a cargo with some lumber
-    cars::LoadCar lumberCargo(2, "cargo", 100, 25, merchandises::merchTypes::box, lumberInTrain);
+    cars::LoadCar lumberCargo(2, "cargo", 100, 25, merchandises::MerchTypes::box, lumberInTrain);
     BOOST_TEST(!lumberCargo.isEmpty());
     BOOST_TEST(!lumberCargo.isFull());
     BOOST_TEST(lumberCargo.canLoad(lumberInCity));
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(testCanLoad) {
     BOOST_TEST(!lumberCargo.canLoad(oilInCity));
 
     // create a cargo with full lumber
-    cars::LoadCar fullLumberCargo(3, "cargo", 100, 10, merchandises::merchTypes::box, lumberInTrain);
+    cars::LoadCar fullLumberCargo(3, "cargo", 100, 10, merchandises::MerchTypes::box, lumberInTrain);
     BOOST_TEST(!fullLumberCargo.isEmpty());
     BOOST_TEST(fullLumberCargo.isFull());
     BOOST_TEST(!fullLumberCargo.canLoad(lumberInCity));
@@ -176,7 +176,7 @@ BOOST_AUTO_TEST_CASE(testCanLoad) {
     BOOST_TEST(!fullLumberCargo.canLoad(oilInCity));
 
     // create a destroyed empty cargo
-    cars::LoadCar destroyedCargo(4, "cargo", 0, 100, 25, merchandises::merchTypes::box);
+    cars::LoadCar destroyedCargo(4, "cargo", 0, 100, 25, merchandises::MerchTypes::box);
     BOOST_TEST(destroyedCargo.isDestroyed());
     BOOST_TEST(!destroyedCargo.canLoad(lumberInCity));
     BOOST_TEST(!destroyedCargo.canLoad(fishInCity));
@@ -185,13 +185,13 @@ BOOST_AUTO_TEST_CASE(testCanLoad) {
 
 BOOST_AUTO_TEST_CASE(testLoad) {
     // create merchs and merch loads
-    merchandises::Merch lumber(100, "lumber", merchandises::merchTypes::box);
-    merchandises::Merch oil(101, "oil", merchandises::merchTypes::toxic);
+    merchandises::Merch lumber(100, "lumber", merchandises::MerchTypes::box);
+    merchandises::Merch oil(101, "oil", merchandises::MerchTypes::toxic);
     merchandises::MerchLoad lumberInCity(lumber, 50, 100);
     merchandises::MerchLoad oilInCity(oil, 50, 100);
 
     // create empty cargo car
-    cars::LoadCar cargo(1, "cargo", 100, 25, merchandises::merchTypes::box);
+    cars::LoadCar cargo(1, "cargo", 100, 25, merchandises::MerchTypes::box);
     BOOST_TEST(cargo.isEmpty());
     BOOST_TEST(cargo.getWeight() == 100, tt::tolerance(0.01));
     BOOST_TEST(cargo.getQuantity() == 0);
@@ -226,12 +226,12 @@ BOOST_AUTO_TEST_CASE(testLoad) {
 
 BOOST_AUTO_TEST_CASE(testUnLoad) {
     // create merchs and merch loads
-    merchandises::Merch lumber(100, "lumber", merchandises::merchTypes::box);
+    merchandises::Merch lumber(100, "lumber", merchandises::MerchTypes::box);
     merchandises::MerchLoad lumberInCity(lumber, 50, 100);
     merchandises::MerchLoad lumberInTrain(lumber, 25, 40);
 
     // create full cargo car
-    cars::LoadCar cargo(1, "cargo", 100, 25, merchandises::merchTypes::box, lumberInTrain);
+    cars::LoadCar cargo(1, "cargo", 100, 25, merchandises::MerchTypes::box, lumberInTrain);
     BOOST_TEST(cargo.isFull());
     BOOST_TEST(!cargo.canLoad(lumberInCity));
     BOOST_TEST(cargo.getRemainingQuantity() == 0);
@@ -266,11 +266,11 @@ BOOST_AUTO_TEST_SUITE(loadCarModel)
 
 BOOST_AUTO_TEST_CASE(testCallOperator) {
     // create merchs and merch loads
-    merchandises::Merch lumber(100, "lumber", merchandises::merchTypes::box);
+    merchandises::Merch lumber(100, "lumber", merchandises::MerchTypes::box);
     merchandises::MerchLoad lumberInCity(lumber, 10, 100);
 
     // create a car model
-    const cars::LoadCarModel Cargo(1, "cargo", 45, 20, merchandises::merchTypes::box);
+    const cars::LoadCarModel Cargo(1, "cargo", 45, 20, merchandises::MerchTypes::box);
 
     // create an empty cargo with full health from car model
     cars::LoadCar cargo1 = Cargo();

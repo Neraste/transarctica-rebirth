@@ -3,7 +3,7 @@
 merchandises::Merch::Merch() :
     id(0), name("null"), type(merchandises::nullMerchType) {}
 
-merchandises::Merch::Merch(const types::id id, const std::string name, const merchTypes& type) :
+merchandises::Merch::Merch(const types::id id, const std::string name, const MerchTypes& type) :
     id(id), name(name), type(type) {}
 
 bool merchandises::Merch::operator ==(const Merch& other) const {
@@ -22,7 +22,7 @@ std::string merchandises::Merch::getName() const {
     return name;
 }
 
-const merchandises::merchTypes& merchandises::Merch::getType() const {
+const merchandises::MerchTypes& merchandises::Merch::getType() const {
     return type;
 }
 

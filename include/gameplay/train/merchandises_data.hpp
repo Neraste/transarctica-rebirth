@@ -6,22 +6,22 @@
 namespace merchandises {
 
 // *INDENT-OFF*
-const Merch alcohol  ( 1  , "alcohol"             , merchTypes::drinkable ) ;
-const Merch antiques ( 2  , "antiques"            , merchTypes::box       ) ;
-const Merch caviar   ( 3  , "caviar"              , merchTypes::box       ) ;
-const Merch fish     ( 4  , "fish"                , merchTypes::box       ) ;
-const Merch rods     ( 5  , "fishing rods"        , merchTypes::box       ) ;
-const Merch furs     ( 6  , "furs"                , merchTypes::box       ) ;
-const Merch gasoline ( 7  , "gasoline"            , merchTypes::toxic     ) ;
-const Merch draisine ( 8  , "line inspection car" , merchTypes::box       ) ;
-const Merch dung     ( 9  , "mammoth dung"        , merchTypes::box       ) ;
-const Merch missiles ( 10 , "missiles"            , merchTypes::box       ) ;
-const Merch oil      ( 11 , "oil"                 , merchTypes::toxic     ) ;
-const Merch plants   ( 12 , "plants"              , merchTypes::vegetal   ) ;
-const Merch rails    ( 13 , "rails"               , merchTypes::box       ) ;
-const Merch salt     ( 14 , "salt"                , merchTypes::box       ) ;
-const Merch meat     ( 15 , "wolf meat"           , merchTypes::box       ) ;
-const Merch wood     ( 16 , "wood"                , merchTypes::box       ) ;
+const Merch alcohol  ( 1  , "alcohol"             , MerchTypes::drinkable ) ;
+const Merch antiques ( 2  , "antiques"            , MerchTypes::box       ) ;
+const Merch caviar   ( 3  , "caviar"              , MerchTypes::box       ) ;
+const Merch fish     ( 4  , "fish"                , MerchTypes::box       ) ;
+const Merch rods     ( 5  , "fishing rods"        , MerchTypes::box       ) ;
+const Merch furs     ( 6  , "furs"                , MerchTypes::box       ) ;
+const Merch gasoline ( 7  , "gasoline"            , MerchTypes::toxic     ) ;
+const Merch draisine ( 8  , "line inspection car" , MerchTypes::box       ) ;
+const Merch dung     ( 9  , "mammoth dung"        , MerchTypes::box       ) ;
+const Merch missiles ( 10 , "missiles"            , MerchTypes::box       ) ;
+const Merch oil      ( 11 , "oil"                 , MerchTypes::toxic     ) ;
+const Merch plants   ( 12 , "plants"              , MerchTypes::vegetal   ) ;
+const Merch rails    ( 13 , "rails"               , MerchTypes::box       ) ;
+const Merch salt     ( 14 , "salt"                , MerchTypes::box       ) ;
+const Merch meat     ( 15 , "wolf meat"           , MerchTypes::box       ) ;
+const Merch wood     ( 16 , "wood"                , MerchTypes::box       ) ;
 // *INDENT-ON*
 
 }
