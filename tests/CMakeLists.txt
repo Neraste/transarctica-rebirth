@@ -2,12 +2,13 @@
 add_subdirectory(gameplay)
 
 # create unit executable
-add_executable(unit
-    unit.cpp
+add_executable(
+    test-unit
+    test_unit.cpp
 )
 
 target_link_libraries(
-    unit
+    test-unit
     PRIVATE
         Boost::unit_test_framework
         test-train
@@ -18,7 +19,7 @@ add_test(
     NAME
         unit
     COMMAND
-        unit --log_level=test_suite
+        test-unit --log_level=test_suite
     WORKING_DIRECTORY
         ${PROJECT_SOURCE_DIR}
 )
