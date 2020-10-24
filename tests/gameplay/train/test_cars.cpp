@@ -2,7 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "cars.hpp"
+#include "gameplay/train/cars.hpp"
 
 namespace tt = boost::test_tools;
 

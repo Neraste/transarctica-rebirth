@@ -1,50 +1,46 @@
 # cmake version
 cmake_minimum_required(
-        VERSION 3.9...3.15
-        FATAL_ERROR
+    VERSION
+        3.9
+    FATAL_ERROR
 )
 
 # project definition
 project(
-        TransarcticaRebirth
-        VERSION 0.0.0
-        LANGUAGES CXX
+    TransarcticaRebirth
+    VERSION
+        0.0.0
+    LANGUAGES
+        CXX
 )
+
+# set bin directory
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+# set C++ standard
+set(CMAKE_CXX_STANDARD 11)
+
+# set include directory
+include_directories(include)
 
 # external libraries
-find_package(Boost REQUIRED
-        COMPONENTS
-                unit_test_framework
+find_package(
+    Boost
+    REQUIRED
+    COMPONENTS
+        unit_test_framework
 )
 
-# gameplay library
-add_library(gameplay
-        src/merchandises.cpp include/merchandises.hpp
-        src/cars.cpp include/cars.hpp
+option(
+    TESTING
+    "Build tests"
+    ON
 )
-target_include_directories(gameplay PUBLIC include)
-target_compile_features(gameplay PUBLIC cxx_std_11)
 
-# test executable
-add_executable(unit
-        tests/unit.cpp
-        tests/test_merchandises.cpp
-        tests/test_cars.cpp
-)
-target_include_directories(unit PUBLIC include)
-target_compile_definitions(unit PUBLIC
-        BOOST_TEST_DYN_LINK
-)
-target_compile_features(unit PUBLIC cxx_std_11)
-target_link_libraries(unit
-        Boost::unit_test_framework
-        gameplay
-)
-add_test(
-        NAME unit
-        COMMAND unit --log_level=test_suite
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-)
+add_subdirectory(src)
 
 # testing
-enable_testing()
+if(TESTING)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

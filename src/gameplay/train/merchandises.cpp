@@ -1,4 +1,4 @@
-#include "merchandises.hpp"
+#include "gameplay/train/merchandises.hpp"
 
 merchandises::Merch::Merch() :
     id(0), name("null"), type(merchandises::nullMerchType) {}

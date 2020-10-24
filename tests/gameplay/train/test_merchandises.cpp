@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
-#include "merchandises.hpp"
+#include "gameplay/train/merchandises.hpp"
 
 BOOST_AUTO_TEST_SUITE(merchandises)
 

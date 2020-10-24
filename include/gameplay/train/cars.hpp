@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "exceptions.hpp"
-#include "merchandises.hpp"
+#include "gameplay/train/merchandises.hpp"
 #include "types.hpp"
 
 namespace cars {

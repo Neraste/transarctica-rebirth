@@ -1,7 +1,7 @@
 #ifndef CARS_DATA_HPP
 #define CARS_DATA_HPP
 
-#include "cars.hpp"
+#include "gameplay/train/cars.hpp"
 
 namespace cars {
 

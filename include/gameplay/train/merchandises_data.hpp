@@ -1,7 +1,7 @@
 #ifndef MERCHANDISES_DATA_HPP
 #define MERCHANDISES_DATA_HPP
 
-#include "merchandises.hpp"
+#include "gameplay/train/merchandises.hpp"
 
 namespace merchandises {
 
