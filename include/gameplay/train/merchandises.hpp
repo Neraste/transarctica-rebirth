@@ -25,12 +25,12 @@ enum merchTypes {
     /**
      * Drinkable liquid.
      */
-    liquidDrinkable,
+    drinkable,
 
     /**
      * Toxic liquid.
      */
-    liquidToxic,
+    toxic,
 
     /**
      * Living vegetal.

@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE(testCanLoad) {
     // create merchs and merch loads
     merchandises::Merch lumber(100, "lumber", merchandises::merchTypes::box);
     merchandises::Merch fish(101, "fish", merchandises::merchTypes::box);
-    merchandises::Merch oil(102, "oil", merchandises::merchTypes::liquidToxic);
+    merchandises::Merch oil(102, "oil", merchandises::merchTypes::toxic);
     merchandises::MerchLoad lumberInCity(lumber, 50, 100);
     merchandises::MerchLoad fishInCity(fish, 30, 10);
     merchandises::MerchLoad oilInCity(oil, 60, 50);
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE(testCanLoad) {
 BOOST_AUTO_TEST_CASE(testLoad) {
     // create merchs and merch loads
     merchandises::Merch lumber(100, "lumber", merchandises::merchTypes::box);
-    merchandises::Merch oil(101, "oil", merchandises::merchTypes::liquidToxic);
+    merchandises::Merch oil(101, "oil", merchandises::merchTypes::toxic);
     merchandises::MerchLoad lumberInCity(lumber, 50, 100);
     merchandises::MerchLoad oilInCity(oil, 50, 100);
 
