@@ -12,11 +12,11 @@
 namespace train {
 
 class Train {
-    protected:
+  protected:
 
     std::vector<boost::any> cars;
 
-    public:
+  public:
 
     Train();
 
