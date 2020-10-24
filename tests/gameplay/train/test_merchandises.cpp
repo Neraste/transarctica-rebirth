@@ -11,13 +11,13 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     merchandises::Merch lumber(1, "lumber", merchandises::merchTypes::box);
     BOOST_TEST(lumber.getId() == 1);
     BOOST_TEST(lumber.getName() == "lumber");
-    BOOST_TEST(lumber.getType() == merchandises::merchTypes::box);
+    BOOST_TEST((lumber.getType() == merchandises::merchTypes::box));
 
     // create merch with default constructor
     merchandises::Merch nullMerch;
     BOOST_TEST(nullMerch.getId() == 0);
     BOOST_TEST(nullMerch.getName() == "null");
-    BOOST_TEST(nullMerch.getType() == merchandises::merchTypes::null);
+    BOOST_TEST((nullMerch.getType() == merchandises::merchTypes::null));
 }
 
 BOOST_AUTO_TEST_CASE(testEquality) {

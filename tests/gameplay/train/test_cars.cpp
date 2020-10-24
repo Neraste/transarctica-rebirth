@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     cars::LoadCar cargo1(1, "dummy", 50, 100, 50, lumber.getType(), lumberLoad);
     BOOST_TEST(cargo1.getWeight() == 110, tt::tolerance(0.01));
     BOOST_TEST(cargo1.getMaxQuantity() == 50);
-    BOOST_TEST(cargo1.getMerchType() == lumber.getType());
+    BOOST_TEST((cargo1.getMerchType() == lumber.getType()));
     BOOST_TEST((cargo1.getMerchLoad().getMerch() == lumber));
     BOOST_TEST(cargo1.getRemainingQuantity() == 40);
     BOOST_TEST(!cargo1.isEmpty());
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     cars::LoadCar cargo2(2, "cargo", 50, 200, 60, lumber.getType());
     BOOST_TEST(cargo2.getWeight() == 200, tt::tolerance(0.01));
     BOOST_TEST(cargo2.getMaxQuantity() == 60);
-    BOOST_TEST(cargo2.getMerchType() == lumber.getType());
+    BOOST_TEST((cargo2.getMerchType() == lumber.getType()));
     BOOST_CHECK_THROW(cargo2.getMerchLoad(), cars::IsEmptyError);
     BOOST_TEST(cargo2.getRemainingQuantity() == 60);
     BOOST_TEST(cargo2.isEmpty());
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     cars::LoadCar cargo3(3, "cargo", 150, 10, lumber.getType(), lumberLoad);
     BOOST_TEST(cargo3.getWeight() == 160, tt::tolerance(0.01));
     BOOST_TEST(cargo3.getMaxQuantity() == 10);
-    BOOST_TEST(cargo3.getMerchType() == lumber.getType());
+    BOOST_TEST((cargo3.getMerchType() == lumber.getType()));
     BOOST_TEST((cargo3.getMerchLoad().getMerch() == lumber));
     BOOST_TEST(cargo3.getRemainingQuantity() == 0);
     BOOST_TEST(!cargo3.isEmpty());
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     cars::LoadCar cargo4(4, "cargo", 250, 100, lumber.getType());
     BOOST_TEST(cargo4.getWeight() == 250, tt::tolerance(0.01));
     BOOST_TEST(cargo4.getMaxQuantity() == 100);
-    BOOST_TEST(cargo4.getMerchType() == lumber.getType());
+    BOOST_TEST((cargo4.getMerchType() == lumber.getType()));
     BOOST_CHECK_THROW(cargo4.getMerchLoad(), cars::IsEmptyError);
     BOOST_TEST(cargo4.getRemainingQuantity() == 100);
     BOOST_TEST(cargo4.isEmpty());

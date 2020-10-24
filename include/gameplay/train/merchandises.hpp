@@ -11,7 +11,7 @@ namespace merchandises {
 /**
  * Types of merchs.
  */
-enum merchTypes {
+enum class MerchTypes {
     /**
      * Null type.
      */
