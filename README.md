@@ -36,6 +36,7 @@ ctest -V # increase verbosity
 The project uses Doxygen for generating the documentation:
 
 ```sh
-doxygen
-xdg-open doc/html/index.html
+cd build
+make doc
+xdg-open doc/index.html
 ```

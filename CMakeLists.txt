@@ -31,9 +31,21 @@ find_package(
         unit_test_framework
 )
 
+find_package(
+    Doxygen
+    1.8
+    REQUIRED
+)
+
 option(
     TESTING
     "Build tests"
+    ON
+)
+
+option(
+    DOCUMENTATION
+    "Build documentation"
     ON
 )
 
@@ -43,4 +55,9 @@ add_subdirectory(src)
 if(TESTING)
     enable_testing()
     add_subdirectory(tests)
+endif()
+
+# doc
+if(DOCUMENTATION)
+    add_subdirectory(doc)
 endif()
