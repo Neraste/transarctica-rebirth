@@ -1,7 +1,7 @@
 # add tests
 add_subdirectory(gameplay)
 
-# create unit executable
+# create test unit executable
 add_executable(
     test-unit
     test_unit.cpp
@@ -12,6 +12,13 @@ target_link_libraries(
     PRIVATE
         Boost::unit_test_framework
         test-train
+)
+
+# requested by older version of boost
+target_compile_definitions(
+    test-unit
+    PRIVATE
+        BOOST_TEST_DYN_LINK
 )
 
 # create unit test
