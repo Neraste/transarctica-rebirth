@@ -2,8 +2,8 @@
 
 train::Train::Train() {}
 
-void train::Train::addCar(cars::Car& car) {
-    cars.push_back(std::shared_ptr<cars::Car>(&car));
+void train::Train::addCar(std::shared_ptr<cars::Car> car) {
+    cars.push_back(car);
 }
 
 std::shared_ptr<cars::Car> train::Train::removeCar(const std::size_t carId) {

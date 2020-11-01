@@ -33,7 +33,7 @@ class Train {
 
     bool canSell(merchandises::Merch& merch, const types::quantity quantity);
 
-    void addCar(cars::Car& car);
+    void addCar(std::shared_ptr<cars::Car> car);
 
     std::shared_ptr<cars::Car> removeCar(const std::size_t carId);
 
