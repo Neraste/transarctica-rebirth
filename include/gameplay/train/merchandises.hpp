@@ -235,7 +235,9 @@ struct NotSameMerchError : public exceptions::TransarcticaRebirthError {
      * Get exception message.
      * @return Error message.
      */
-    const char* what() const throw();
+    const char* what() const throw() {
+        return "Merchs are different";
+    }
 };
 
 /**
@@ -246,7 +248,9 @@ struct NotEnoughLoadError : public exceptions::TransarcticaRebirthError {
      * Get exception message.
      * @return Error message.
      */
-    const char* what() const throw();
+    const char* what() const throw() {
+        return "Not enough merch load to subsract";
+    }
 };
 
 }

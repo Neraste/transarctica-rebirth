@@ -41,10 +41,6 @@ void cars::Car::repair() {
     health = maxHealth;
 }
 
-const char* cars::DestroyedCarError::what() const throw() {
-    return "Car is destroyed";
-}
-
 types::weight cars::NormalCar::getWeight() const {
     return weight;
 }
@@ -220,22 +216,6 @@ merchandises::MerchLoad cars::LoadCar::unLoad(const types::quantity quantity) {
     if (getQuantity() == 0) merchContainer.clear();
 
     return splittedLoad;
-}
-
-const char* cars::CannotLoadError::what() const throw () {
-    return "Car cannot load this merch";
-}
-
-const char* cars::NotEnoughSpaceError::what() const throw () {
-    return "Car cannot load this merch load: not enough space";
-}
-
-const char* cars::NotEnoughLoadError::what() const throw() {
-    return "Car cannot unload this merch load: not enough load";
-}
-
-const char* cars::IsEmptyError::what() const throw() {
-    return "Car is empty";
 }
 
 cars::LoadCar cars::LoadCarModel::operator()(types::health requestedHealth,

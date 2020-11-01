@@ -120,7 +120,9 @@ struct DestroyedCarError : public exceptions::TransarcticaRebirthError {
      * Error message.
      * @return Error message.
      */
-    const char* what() const throw();
+    const char* what() const throw() {
+        return "Car is destroyed";
+    }
 };
 
 /**
@@ -307,7 +309,9 @@ struct CannotLoadError : public exceptions::TransarcticaRebirthError {
      * Error message.
      * @return Error message.
      */
-    const char* what() const throw();
+    const char* what() const throw() {
+        return "Car cannot load this merch";
+    }
 
 };
 
@@ -319,7 +323,9 @@ struct NotEnoughSpaceError : public exceptions::TransarcticaRebirthError {
      * Error message.
      * @return Error message.
      */
-    const char* what() const throw();
+    const char* what() const throw() {
+        return "Car cannot load this merch load: not enough space";
+    }
 };
 
 /**
@@ -330,7 +336,9 @@ struct NotEnoughLoadError : public exceptions::TransarcticaRebirthError {
      * Error message.
      * @return Error message.
      */
-    const char* what() const throw();
+    const char* what() const throw() {
+        return "Car cannot unload this merch load: not enough load";
+    }
 };
 
 /**
@@ -341,7 +349,9 @@ struct IsEmptyError : public exceptions::TransarcticaRebirthError {
      * Error message.
      * @return Error message.
      */
-    const char* what() const throw();
+    const char* what() const throw() {
+        return "Car is empty";
+    }
 };
 
 /**

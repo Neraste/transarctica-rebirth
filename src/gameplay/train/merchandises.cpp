@@ -90,11 +90,3 @@ merchandises::MerchLoad merchandises::MerchLoad::split(const MerchLoad& other) {
 
     return split(other.quantity);
 }
-
-const char* merchandises::NotSameMerchError::what() const throw() {
-    return "Merchs are different";
-}
-
-const char* merchandises::NotEnoughLoadError::what() const throw() {
-    return "Not enough merch load to subsract";
-}
