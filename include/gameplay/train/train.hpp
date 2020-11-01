@@ -1,9 +1,8 @@
 #ifndef TRAIN_HPP
 #define TRAIN_HPP
 
+#include <memory>
 #include <vector>
-
-#include <boost/any.hpp>
 
 #include "cars.hpp"
 #include "merchandises.hpp"
@@ -14,7 +13,9 @@ namespace train {
 class Train {
   protected:
 
-    std::vector<boost::any> cars;
+    std::vector<std::shared_ptr<cars::Car>> cars;
+
+    std::vector<std::shared_ptr<cars::Car>>::iterator getCarIterator(const std::size_t carId);
 
   public:
 
@@ -34,8 +35,11 @@ class Train {
 
     void addCar(cars::Car& car);
 
-    void removeCar(cars::Car& car);
+    std::shared_ptr<cars::Car> removeCar(const std::size_t carId);
 
+    void moveCar(const std::size_t carId, const std::size_t position);
+
+    std::shared_ptr<cars::Car> getCar(const std::size_t carId);
 };
 
 }
