@@ -1,6 +1,7 @@
 #ifndef CARS_HPP
 #define CARS_HPP
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -127,6 +128,7 @@ struct DestroyedCarError : public exceptions::TransarcticaRebirthError {
 
 /**
  * Normal car object.
+ * Cars that can be purchased, used, and destroyed.
  */
 class NormalCar : public Car {
     using Car::Car;
@@ -155,17 +157,26 @@ class LoadCar : public Car {
     /**
      * Type of merch accepted.
      */
-    const merchandises::MerchTypes& merchType;
+    const merchandises::MerchTypes merchType;
 
     /**
-     * Merchandise container.
+     * Merchandise.
      */
-    std::vector<merchandises::MerchLoad> merchContainer;
+    std::shared_ptr<merchandises::MerchLoad> merchLoad;
 
     /**
      * Setter for merch load.
+     * @param merchLoad Merch load to put in the car. The variable passed as
+     * argument will not be useable after the call, as the reference will be
+     * moved in the object.
      */
     void setMerchLoad(const merchandises::MerchLoad& merchLoad);
+
+    /**
+     * Setter for merch load.
+     * @param merchLoad Merch load to put in the car.
+     */
+    void setMerchLoad(const std::shared_ptr<merchandises::MerchLoad>& merchLoad);
 
   public:
 
@@ -182,12 +193,35 @@ class LoadCar : public Car {
      * @param weight Base weight of the car.
      * @param maxQuantity Capacity of the car.
      * @param merchType Type of merch accepted in the car.
+     * @param merchLoad Load in the car. The variable passed as argument will
+     * not be useable after the call, as the reference will be moved in the
+     * object.
+     */
+    LoadCar(const types::id id,
+            const std::string name,
+            const types::health health,
+            const types::weight weight,
+            const types::quantity maxQuantity,
+            const merchandises::MerchTypes merchType,
+            merchandises::MerchLoad& merchLoad);
+
+    /**
+     * Usual constructor.
+     * @param id ID of the car.
+     * @param name Human-readable name of the car.
+     * @param health Health points of the car.
+     * @param weight Base weight of the car.
+     * @param maxQuantity Capacity of the car.
+     * @param merchType Type of merch accepted in the car.
      * @param merchLoad Load in the car.
      */
-    LoadCar(const types::id id, const std::string name, const types::health health,
+    LoadCar(const types::id id,
+            const std::string name,
+            const types::health health,
             const types::weight weight,
-            const types::quantity maxQuantity, const merchandises::MerchTypes& merchType,
-            const merchandises::MerchLoad& merchLoad);
+            const types::quantity maxQuantity,
+            const merchandises::MerchTypes merchType,
+            std::shared_ptr<merchandises::MerchLoad>& merchLoad);
 
     /**
      * Usual constructor for empty car.
@@ -198,9 +232,30 @@ class LoadCar : public Car {
      * @param maxQuantity Capacity of the car.
      * @param merchType Type of merch accepted in the car.
      */
-    LoadCar(const types::id id, const std::string name, const types::health health,
+    LoadCar(const types::id id,
+            const std::string name,
+            const types::health health,
             const types::weight weight,
-            const types::quantity maxQuantity, const merchandises::MerchTypes& merchType);
+            const types::quantity maxQuantity,
+            const merchandises::MerchTypes merchType);
+
+    /**
+     * Usual constructor for car with full health points.
+     * @param id ID of the car.
+     * @param name Human-readable name of the car.
+     * @param weight Base weight of the car.
+     * @param maxQuantity Capacity of the car.
+     * @param merchType Type of merch accepted in the car.
+     * @param merchLoad Load in the car. The variable passed as argument will
+     * not be useable after the call, as the reference will be moved in the
+     * object.
+     */
+    LoadCar(const types::id id,
+            const std::string name,
+            const types::weight weight,
+            const types::quantity maxQuantity,
+            const merchandises::MerchTypes merchType,
+            merchandises::MerchLoad& merchLoad);
 
     /**
      * Usual constructor for car with full health points.
@@ -211,9 +266,12 @@ class LoadCar : public Car {
      * @param merchType Type of merch accepted in the car.
      * @param merchLoad Load in the car.
      */
-    LoadCar(const types::id id, const std::string name, const types::weight weight,
-            const types::quantity maxQuantity, const merchandises::MerchTypes& merchType,
-            const merchandises::MerchLoad& merchLoad);
+    LoadCar(const types::id id,
+            const std::string name,
+            const types::weight weight,
+            const types::quantity maxQuantity,
+            const merchandises::MerchTypes merchType,
+            std::shared_ptr<merchandises::MerchLoad>& merchLoad);
 
     /**
      * Usual constructor for empty car with full health points.
@@ -223,8 +281,11 @@ class LoadCar : public Car {
      * @param maxQuantity Capacity of the car.
      * @param merchType Type of merch accepted in the car.
      */
-    LoadCar(const types::id id, const std::string name, const types::weight weight,
-            const types::quantity maxQuantity, const merchandises::MerchTypes& merchType);
+    LoadCar(const types::id id,
+            const std::string name,
+            const types::weight weight,
+            const types::quantity maxQuantity,
+            const merchandises::MerchTypes merchType);
 
     /**
      * Getter for weight.
@@ -254,13 +315,13 @@ class LoadCar : public Car {
      * Getter for accepted merch type.
      * @return Type of merch accepted in the car.
      */
-    const merchandises::MerchTypes& getMerchType() const;
+    merchandises::MerchTypes getMerchType() const;
 
     /**
      * Getter for merch load.
      * @return Load in the car.
      */
-    const merchandises::MerchLoad& getMerchLoad() const;
+    std::shared_ptr<merchandises::MerchLoad> getMerchLoad();
 
     /**
      * Tell if the car is empty.
@@ -282,21 +343,46 @@ class LoadCar : public Car {
     bool canLoad(const merchandises::MerchLoad& merchLoad) const;
 
     /**
+     * Tell if the car can load this merch load.
+     * @param merchLoad Load to consider.
+     * @return True if the load cand be loaded.
+     */
+    bool canLoad(const std::shared_ptr<merchandises::MerchLoad>& merchLoad) const;
+
+    /**
      * Load a merch load in the car.
-     * @param merchLoad Load to load in the car.
+     * @param merchLoad Load to load in the car. After the call, the merch load
+     * is empty.
      */
     void load(merchandises::MerchLoad& merchLoad);
 
     /**
+     * Load a merch load in the car.
+     * @param merchLoad Load to load in the car. After the call, the merch load
+     * is empty.
+     */
+    void load(std::shared_ptr<merchandises::MerchLoad>& merchLoad);
+
+    /**
      * Load a certain quantity of a merch load in the car.
-     * @param merchLoad Load to load in the car.
+     * @param merchLoad Load to load in the car. After the call, the merch load
+     * quantity is reduced.
      * @param quantity Quantity of load to load only.
      */
     void load(merchandises::MerchLoad& merchLoad, const types::quantity quantity);
 
     /**
+     * Load a certain quantity of a merch load in the car.
+     * @param merchLoad Load to load in the car. After the call, the merch load
+     * quantity is reduced.
+     * @param quantity Quantity of load to load only.
+     */
+    void load(std::shared_ptr<merchandises::MerchLoad>& merchLoad, const types::quantity quantity);
+
+    /**
      * Unload merch loads from the car.
      * @param quantity Quantity of load to unload.
+     * @return Load unloaded, containing the required quantity.
      */
     merchandises::MerchLoad unLoad(const types::quantity quantity);
 };

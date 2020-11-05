@@ -83,10 +83,12 @@ BOOST_AUTO_TEST_CASE(testGetters) {
 
     // create car with usual constructor
     cars::LoadCar cargo1(1, "dummy", 50, 100, 50, lumber.getType(), lumberLoad);
+    BOOST_TEST(!cargo1.isEmpty());
+    BOOST_TEST(!cargo1.isFull());
     BOOST_TEST(cargo1.getWeight() == 110, tt::tolerance(0.01));
     BOOST_TEST(cargo1.getMaxQuantity() == 50);
     BOOST_TEST((cargo1.getMerchType() == lumber.getType()));
-    BOOST_TEST((cargo1.getMerchLoad().getMerch() == lumber));
+    BOOST_TEST((cargo1.getMerchLoad()->getMerch() == lumber));
     BOOST_TEST(cargo1.getRemainingQuantity() == 40);
     BOOST_TEST(!cargo1.isEmpty());
     BOOST_TEST(!cargo1.isFull());
@@ -106,7 +108,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     BOOST_TEST(cargo3.getWeight() == 160, tt::tolerance(0.01));
     BOOST_TEST(cargo3.getMaxQuantity() == 10);
     BOOST_TEST((cargo3.getMerchType() == lumber.getType()));
-    BOOST_TEST((cargo3.getMerchLoad().getMerch() == lumber));
+    BOOST_TEST((cargo3.getMerchLoad()->getMerch() == lumber));
     BOOST_TEST(cargo3.getRemainingQuantity() == 0);
     BOOST_TEST(!cargo3.isEmpty());
     BOOST_TEST(cargo3.isFull());
@@ -134,7 +136,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     // create car with too much load
     merchandises::MerchLoad anotherLumberLoad(lumber, 100, 100);
     BOOST_CHECK_THROW(
-    ([lumber, anotherLumberLoad]()->void {
+    ([&lumber, &anotherLumberLoad]()->void {
         cars::LoadCar cargo6(3, "cargo", 150, 10, lumber.getType(), anotherLumberLoad);
     }()),
     cars::NotEnoughSpaceError
@@ -205,7 +207,7 @@ BOOST_AUTO_TEST_CASE(testLoad) {
     BOOST_TEST(!cargo.isEmpty());
     BOOST_TEST(cargo.getQuantity() == 10);
     BOOST_TEST(cargo.getRemainingQuantity() == 15);
-    BOOST_TEST(cargo.getMerchLoad().getQuantity() == 10);
+    BOOST_TEST(cargo.getMerchLoad()->getQuantity() == 10);
     BOOST_TEST(cargo.getWeight() == 110, tt::tolerance(0.01));
     BOOST_TEST(lumberInCity.getQuantity() == 40);
 
@@ -213,7 +215,7 @@ BOOST_AUTO_TEST_CASE(testLoad) {
     cargo.load(lumberInCity, 10);
     BOOST_TEST(cargo.getQuantity() == 20);
     BOOST_TEST(cargo.getRemainingQuantity() == 5);
-    BOOST_TEST(cargo.getMerchLoad().getQuantity() == 20);
+    BOOST_TEST(cargo.getMerchLoad()->getQuantity() == 20);
     BOOST_TEST(cargo.getWeight() == 120, tt::tolerance(0.01));
     BOOST_TEST(lumberInCity.getQuantity() == 30);
 

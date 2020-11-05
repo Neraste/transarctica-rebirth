@@ -1,17 +1,18 @@
 #include "gameplay/train/merchandises.hpp"
+#include <iostream>
 
 merchandises::Merch::Merch() :
     id(0), name("null"), type(merchandises::nullMerchType) {}
 
-merchandises::Merch::Merch(const types::id id, const std::string name, const MerchTypes& type) :
+merchandises::Merch::Merch(const types::id id, const std::string name, const MerchTypes type) :
     id(id), name(name), type(type) {}
 
 bool merchandises::Merch::operator ==(const Merch& other) const {
-    return (id == other.id);
+    return id == other.id;
 }
 
 bool merchandises::Merch::operator !=(const Merch& other) const {
-    return (id != other.id);
+    return id != other.id;
 }
 
 types::id merchandises::Merch::getId() const {
@@ -22,14 +23,15 @@ std::string merchandises::Merch::getName() const {
     return name;
 }
 
-const merchandises::MerchTypes& merchandises::Merch::getType() const {
+merchandises::MerchTypes merchandises::Merch::getType() const {
     return type;
 }
 
 merchandises::MerchLoad::MerchLoad() :
     merch(merchandises::nullMerch), quantity(0), price(0) {}
 
-merchandises::MerchLoad::MerchLoad(const Merch& merch, const types::quantity quantity,
+merchandises::MerchLoad::MerchLoad(const Merch& merch,
+                                   const types::quantity quantity,
                                    const types::price price) :
     merch(merch), quantity(quantity), price(price) {}
 
@@ -46,11 +48,16 @@ types::price merchandises::MerchLoad::getPrice() const {
 }
 
 bool merchandises::MerchLoad::hasSameMerch(const MerchLoad& other) {
-    return (hasSameMerch(other.merch));
+    bool hsm = hasSameMerch(other.merch);
+    return hsm;
+}
+
+bool merchandises::MerchLoad::hasSameMerch(const std::shared_ptr<MerchLoad>& other) {
+    return hasSameMerch(other->merch);
 }
 
 bool merchandises::MerchLoad::hasSameMerch(const Merch& otherMerch) {
-    return (merch == otherMerch);
+    return merch == otherMerch;
 }
 
 void merchandises::MerchLoad::add(const types::quantity otherQuantity,

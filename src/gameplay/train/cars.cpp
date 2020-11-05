@@ -47,45 +47,82 @@ types::weight cars::NormalCar::getWeight() const {
 
 cars::LoadCar::LoadCar() :
     Car(), maxQuantity(0), merchType(merchandises::nullMerchType),
-    merchContainer(std::vector<merchandises::MerchLoad>()) {}
+    merchLoad() {}
 
-cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::health health,
-                       const types::weight weight, const types::quantity maxQuantity,
-                       const merchandises::MerchTypes& merchType,
-                       const merchandises::MerchLoad& otherMerchLoad) :
-    Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType),
-    merchContainer(std::vector<merchandises::MerchLoad>()) {
+cars::LoadCar::LoadCar(const types::id id,
+                       const std::string name,
+                       const types::health health,
+                       const types::weight weight,
+                       const types::quantity maxQuantity,
+                       const merchandises::MerchTypes merchType,
+                       merchandises::MerchLoad& otherMerchLoad) :
+    Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType), merchLoad() {
     setMerchLoad(otherMerchLoad);
 }
 
-cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::health health,
-                       const types::weight weight, const types::quantity maxQuantity,
-                       const merchandises::MerchTypes& merchType) :
+cars::LoadCar::LoadCar(const types::id id,
+                       const std::string name,
+                       const types::health health,
+                       const types::weight weight,
+                       const types::quantity maxQuantity,
+                       const merchandises::MerchTypes merchType,
+                       std::shared_ptr<merchandises::MerchLoad>& otherMerchLoad) :
     Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType),
-    merchContainer(std::vector<merchandises::MerchLoad>()) {}
-
-cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::weight weight,
-                       const types::quantity maxQuantity, const merchandises::MerchTypes& merchType,
-                       const merchandises::MerchLoad& otherMerchLoad) :
-    Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType),
-    merchContainer(std::vector<merchandises::MerchLoad>()) {
+    merchLoad() {
     setMerchLoad(otherMerchLoad);
 }
 
-cars::LoadCar::LoadCar(const types::id id, const std::string name, const types::weight weight,
-                       const types::quantity maxQuantity, const merchandises::MerchTypes& merchType) :
+cars::LoadCar::LoadCar(const types::id id,
+                       const std::string name,
+                       const types::health health,
+                       const types::weight weight,
+                       const types::quantity maxQuantity,
+                       const merchandises::MerchTypes merchType) :
+    Car(id, name, health, weight), maxQuantity(maxQuantity), merchType(merchType),
+    merchLoad() {}
+
+cars::LoadCar::LoadCar(const types::id id,
+                       const std::string name,
+                       const types::weight weight,
+                       const types::quantity maxQuantity,
+                       const merchandises::MerchTypes merchType,
+                       merchandises::MerchLoad& otherMerchLoad) :
+    Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType), merchLoad() {
+    setMerchLoad(otherMerchLoad);
+}
+
+cars::LoadCar::LoadCar(const types::id id,
+                       const std::string name,
+                       const types::weight weight,
+                       const types::quantity maxQuantity,
+                       const merchandises::MerchTypes merchType,
+                       std::shared_ptr<merchandises::MerchLoad>& otherMerchLoad) :
     Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType),
-    merchContainer(std::vector<merchandises::MerchLoad>()) {}
+    merchLoad() {
+    setMerchLoad(otherMerchLoad);
+}
+
+cars::LoadCar::LoadCar(const types::id id,
+                       const std::string name,
+                       const types::weight weight,
+                       const types::quantity maxQuantity,
+                       const merchandises::MerchTypes merchType) :
+    Car(id, name, weight), maxQuantity(maxQuantity), merchType(merchType),
+    merchLoad() {}
 
 void cars::LoadCar::setMerchLoad(const merchandises::MerchLoad& otherMerchLoad) {
+    setMerchLoad(std::make_shared<merchandises::MerchLoad>(std::move(otherMerchLoad)));
+}
+
+void cars::LoadCar::setMerchLoad(const std::shared_ptr<merchandises::MerchLoad>& otherMerchLoad) {
     // do not set merch load if the load is empty
-    if (!otherMerchLoad.getQuantity()) return;
+    if (!otherMerchLoad->getQuantity()) return;
 
     // check there is enouth place in the car
-    if (otherMerchLoad.getQuantity() > maxQuantity) throw NotEnoughSpaceError();
+    if (otherMerchLoad->getQuantity() > maxQuantity) throw NotEnoughSpaceError();
 
-    // load the car
-    merchContainer.push_back(otherMerchLoad);
+    // load the merch on board
+    merchLoad = otherMerchLoad;
 }
 
 types::weight cars::LoadCar::getWeight() const {
@@ -114,7 +151,7 @@ types::quantity cars::LoadCar::getQuantity() const {
     // nothing if empty
     if (isEmpty()) return 0;
 
-    return merchContainer.at(0).getQuantity();
+    return merchLoad->getQuantity();
 }
 
 types::quantity cars::LoadCar::getRemainingQuantity() const {
@@ -126,27 +163,27 @@ types::quantity cars::LoadCar::getRemainingQuantity() const {
     return maxQuantity - getQuantity();
 }
 
-const merchandises::MerchTypes& cars::LoadCar::getMerchType() const {
+merchandises::MerchTypes cars::LoadCar::getMerchType() const {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
     return merchType;
 }
 
-const merchandises::MerchLoad& cars::LoadCar::getMerchLoad() const {
+std::shared_ptr<merchandises::MerchLoad> cars::LoadCar::getMerchLoad() {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
     if (isEmpty()) throw IsEmptyError();
 
-    return merchContainer.at(0);
+    return merchLoad;
 }
 
 bool cars::LoadCar::isEmpty() const {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
-    return merchContainer.empty();
+    return !bool(merchLoad);
 }
 
 bool cars::LoadCar::isFull() const {
@@ -155,15 +192,20 @@ bool cars::LoadCar::isFull() const {
 
     if (isEmpty()) return false;
 
-    return (getRemainingQuantity() <= 0);
+    return getRemainingQuantity() <= 0;
 }
 
 bool cars::LoadCar::canLoad(const merchandises::MerchLoad& otherMerchLoad) const {
+    // copy the merch load
+    return canLoad(std::make_shared<merchandises::MerchLoad>(otherMerchLoad));
+}
+
+bool cars::LoadCar::canLoad(const std::shared_ptr<merchandises::MerchLoad>& otherMerchLoad) const {
     // no if the car is destroyed
     if (isDestroyed()) return false;
 
     // no if the merch type are different
-    if (otherMerchLoad.getMerch().getType() != getMerchType()) return false;
+    if (otherMerchLoad->getMerch().getType() != getMerchType()) return false;
 
     // yes if the car is empty
     if (isEmpty()) return true;
@@ -172,7 +214,7 @@ bool cars::LoadCar::canLoad(const merchandises::MerchLoad& otherMerchLoad) const
     if (isFull()) return false;
 
     // if the car contains the same merch
-    return (merchContainer.at(0).getMerch() == otherMerchLoad.getMerch());
+    return merchLoad->getMerch() == otherMerchLoad->getMerch();
 }
 
 void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad) {
@@ -180,6 +222,18 @@ void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad) {
 }
 
 void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad, const types::quantity quantity) {
+    // copy the merch load in a teporary shared pointer
+    std::shared_ptr<merchandises::MerchLoad> otherMerchLoadTemp =
+        std::make_shared<merchandises::MerchLoad>(otherMerchLoad);
+
+    load(otherMerchLoadTemp, quantity);
+
+    // update the merch load
+    otherMerchLoad.substract(quantity);
+}
+
+void cars::LoadCar::load(std::shared_ptr<merchandises::MerchLoad>& otherMerchLoad,
+                         const types::quantity quantity) {
     // impossible if the car is destroyed
     if (isDestroyed()) throw DestroyedCarError();
 
@@ -189,16 +243,15 @@ void cars::LoadCar::load(merchandises::MerchLoad& otherMerchLoad, const types::q
     // check there is enouth free space
     if (getRemainingQuantity() < quantity) throw NotEnoughSpaceError();
 
-    // load it to the car
-    otherMerchLoad.substract(quantity);
+    // prepare to load it to the car
+    auto toLoadMerchLoad = otherMerchLoad->split(quantity);
 
     if (isEmpty()) {
         // if the car is empty, load it with the new merch load
-        merchContainer.push_back(merchandises::MerchLoad(otherMerchLoad.getMerch(), quantity,
-                                 otherMerchLoad.getPrice()));
+        merchLoad = std::make_shared<merchandises::MerchLoad>(std::move(toLoadMerchLoad));
     } else {
         // otherwise load more merch load
-        merchContainer.at(0).add(quantity, otherMerchLoad.getPrice());
+        merchLoad->add(toLoadMerchLoad);
     }
 }
 
@@ -210,12 +263,12 @@ merchandises::MerchLoad cars::LoadCar::unLoad(const types::quantity quantity) {
     if (quantity > getQuantity()) throw NotEnoughLoadError();
 
     // unload it from the car
-    merchandises::MerchLoad splittedLoad(merchContainer.at(0).split(quantity));
+    auto toUnloadMerchLoad = merchLoad->split(quantity);
 
     // check emptyness
-    if (getQuantity() == 0) merchContainer.clear();
+    if (getQuantity() == 0) merchLoad.reset();
 
-    return splittedLoad;
+    return toUnloadMerchLoad;
 }
 
 cars::LoadCar cars::LoadCarModel::operator()(types::health requestedHealth,

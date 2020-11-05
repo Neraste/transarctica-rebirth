@@ -1,6 +1,7 @@
 #ifndef MERCHANDISES_HPP
 #define MERCHANDISES_HPP
 
+#include <memory>
 #include <string>
 
 #include "exceptions.hpp"
@@ -61,7 +62,7 @@ class Merch {
      * Type of the merchandise.
      * Used to find cars that can store this merch.
      */
-    const MerchTypes& type;
+    const MerchTypes type;
 
   public:
 
@@ -76,7 +77,7 @@ class Merch {
      * @param name Human-readable name of the merch.
      * @param type Type of the merch.
      */
-    Merch(const types::id id, const std::string name, const MerchTypes& type);
+    Merch(const types::id id, const std::string name, const MerchTypes type);
 
     // Merch& operator=(const Merch&);
 
@@ -112,7 +113,7 @@ class Merch {
      * Getter for type.
      * @return Type of the merch.
      */
-    const MerchTypes& getType() const;
+    MerchTypes getType() const;
 };
 
 /**
@@ -127,7 +128,7 @@ class MerchLoad {
     /**
      * Merchandise.
      */
-    const Merch& merch;
+    const merchandises::Merch& merch;
 
     /**
      * Quantity of merchandise.
@@ -152,7 +153,9 @@ class MerchLoad {
      * @param quantity Quantity of merch in the load.
      * @param price Average price of the load.
      */
-    MerchLoad(const Merch& merch, const types::quantity quantity, const types::price price);
+    MerchLoad(const Merch& merch,
+              const types::quantity quantity,
+              const types::price price);
 
     /**
      * Getter for merch.
@@ -216,6 +219,13 @@ class MerchLoad {
      * @return True if the two loads have the same merch.
      */
     bool hasSameMerch(const MerchLoad& other);
+
+    /**
+     * Check two merchandise loads have the same merchandise.
+     * @param other Load to compare the merch with.
+     * @return True if the two loads have the same merch.
+     */
+    bool hasSameMerch(const std::shared_ptr<MerchLoad>& other);
 
     /**
      * Check the merch is the same as the one of the load.
