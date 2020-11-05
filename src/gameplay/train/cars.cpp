@@ -1,16 +1,25 @@
 #include "gameplay/train/cars.hpp"
 
+types::id cars::Car::latestCarId = 0;
+
 const types::health cars::Car::maxHealth = 100;
 
 cars::Car::Car() :
-    id(0), name(""), health(maxHealth), weight(0) {}
+    carId(++latestCarId), id(0), name(""), health(maxHealth), weight(0) {}
 
 cars::Car::Car(const types::id id, const std::string name, const types::health health,
                const types::weight weight) :
-    id(id), name(name), health(health), weight(weight) {}
+    carId(++latestCarId), id(id), name(name), health(health), weight(weight) {}
 
 cars::Car::Car(const types::id id, const std::string name, const types::weight weight) :
-    id(id), name(name), health(maxHealth), weight(weight) {}
+    carId(++latestCarId), id(id), name(name), health(maxHealth), weight(weight) {}
+
+cars::Car::Car(const Car& car) :
+    carId(++latestCarId), id(car.id), name(car.name), health(car.health), weight(car.weight) {}
+
+types::id cars::Car::getCarId() const {
+    return carId;
+}
 
 types::id cars::Car::getId() const {
     return id;
@@ -18,6 +27,10 @@ types::id cars::Car::getId() const {
 
 std::string cars::Car::getName() const {
     return name;
+}
+
+types::health cars::Car::getMaxHealth() const {
+    return maxHealth;
 }
 
 types::health cars::Car::getHealth() const {

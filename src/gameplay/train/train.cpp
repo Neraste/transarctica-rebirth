@@ -1,3 +1,5 @@
+#include <typeinfo>
+
 #include "gameplay/train/train.hpp"
 
 train::Train::Train() {}
@@ -7,10 +9,14 @@ void train::Train::addCar(std::shared_ptr<cars::Car> car) {
 }
 
 std::shared_ptr<cars::Car> train::Train::removeCar(const std::size_t carId) {
-    // TODO check car type
     // esp. cannot remove SpecialCar
     auto it = getCarIterator(carId);
     auto car = *it;
+
+    // check car is not special
+    // this means we can't move a special car for now
+    if (typeid(car).hash_code() == typeid(cars::SpecialCar).hash_code()) throw SpecialCarRemoveError();
+
     cars.erase(it);
     return car;
 }
@@ -20,7 +26,9 @@ std::shared_ptr<cars::Car> train::Train::getCar(const std::size_t carId) {
 }
 
 void train::Train::moveCar(const std::size_t carId, const std::size_t position) {
-    // TODO check position
+    // check position
+    if (position >= cars.size()) throw CarInvalidPositionError();
+
     auto car = removeCar(carId);
     cars.emplace(cars.begin() + position, car);
 }
@@ -30,12 +38,12 @@ const std::size_t carId) {
     auto it = cars.begin();
 
     for (const auto car : cars) {
-        if (car->getId() == carId) {
+        if (car->getCarId() == carId) {
             return it;
         }
 
         it++;
     }
 
-    // TODO raise exception if not found
+    throw CarNotFoundError();
 }

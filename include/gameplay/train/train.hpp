@@ -42,6 +42,46 @@ class Train {
     std::shared_ptr<cars::Car> getCar(const std::size_t carId);
 };
 
+/**
+ * Error class when a car cannot be found.
+ */
+struct CarNotFoundError : public exceptions::TransarcticaRebirthError {
+    /**
+     * Error message.
+     * @return Error message.
+     */
+    const char* what() const throw() {
+        return "Car not found";
+    }
+};
+
+/**
+ * Error class when a car is moved to invalid position.
+ */
+struct CarInvalidPositionError : public exceptions::TransarcticaRebirthError {
+    /**
+     * Error message.
+     * @return Error message.
+     */
+    const char* what() const throw() {
+        return "Position not possible";
+    }
+};
+
+/**
+ * Error class used when trying to remove a special car.
+ */
+struct SpecialCarRemoveError : public exceptions::TransarcticaRebirthError {
+
+    /**
+     * Error message.
+     * @return Error message.
+     */
+    const char* what() const throw() {
+        return "This car cannot be removed";
+    }
+};
+
 }
 
 #endif //ifndef TRAIN_HPP

@@ -16,6 +16,21 @@ namespace cars {
  * This class is abstract.
  */
 class Car {
+    /**
+     * Unique ID of the latest car created.
+     */
+    static types::id latestCarId;
+
+    /**
+     * Unique ID of the car.
+     */
+    const types::id carId;
+
+    /**
+     * Maximum health points.
+     */
+    const static types::health maxHealth;
+
   protected:
 
     /**
@@ -66,9 +81,15 @@ class Car {
     Car(const types::id id, const std::string name, const types::weight weight);
 
     /**
-     * Maximum health points.
+     * Copy constructor.
+     * @param car Car to construct from.
      */
-    const static types::health maxHealth;
+    Car(const Car& car);
+
+    /**
+     * Getter for the ID of the car.
+     */
+    types::id getCarId() const;
 
     /**
      * Getter for ID.
@@ -81,6 +102,12 @@ class Car {
      * @return Human-readable name of the car.
      */
     std::string getName() const;
+
+    /**
+     * Getter for maximum health points.
+     * @return Maximum health points of the car.
+     */
+    types::health getMaxHealth() const;
 
     /**
      * Getter for health points.
@@ -124,6 +151,14 @@ struct DestroyedCarError : public exceptions::TransarcticaRebirthError {
     const char* what() const throw() {
         return "Car is destroyed";
     }
+};
+
+/**
+ * Special car object.
+ * Cars that cannot be purchased. If they are destroyed, the game ends.
+ */
+class SpecialCar : public Car {
+    using Car::Car;
 };
 
 /**

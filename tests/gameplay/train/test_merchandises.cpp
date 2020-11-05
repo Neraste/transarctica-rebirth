@@ -58,6 +58,10 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     BOOST_TEST((lumberLoad3.getMerch() == lumber));
     BOOST_TEST(lumberLoad3.getQuantity() == 10);
     BOOST_TEST(lumberLoad3.getPrice() == 100);
+
+    // check loads have different unique IDs
+    BOOST_TEST(lumberLoad1.getLoadId() != lumberLoad2.getLoadId());
+    BOOST_TEST(lumberLoad1.getLoadId() != lumberLoad3.getLoadId());
 }
 
 BOOST_AUTO_TEST_CASE(testSameMerch) {

@@ -27,13 +27,23 @@ merchandises::MerchTypes merchandises::Merch::getType() const {
     return type;
 }
 
+types::id merchandises::MerchLoad::latestLoadId = 0;
+
 merchandises::MerchLoad::MerchLoad() :
-    merch(merchandises::nullMerch), quantity(0), price(0) {}
+    loadId(++latestLoadId), merch(merchandises::nullMerch), quantity(0), price(0) {}
 
 merchandises::MerchLoad::MerchLoad(const Merch& merch,
                                    const types::quantity quantity,
                                    const types::price price) :
-    merch(merch), quantity(quantity), price(price) {}
+    loadId(++latestLoadId), merch(merch), quantity(quantity), price(price) {}
+
+merchandises::MerchLoad::MerchLoad(const MerchLoad& merchLoad) :
+    loadId(++latestLoadId), merch(merchLoad.merch), quantity(merchLoad.quantity),
+    price(merchLoad.price) {}
+
+types::id merchandises::MerchLoad::getLoadId() const {
+    return loadId;
+}
 
 const merchandises::Merch& merchandises::MerchLoad::getMerch() const {
     return merch;

@@ -126,6 +126,16 @@ const Merch nullMerch;
  */
 class MerchLoad {
     /**
+     * Unique ID of the latest created load.
+     */
+    static types::id latestLoadId;
+
+    /**
+     * Unique ID of the load.
+     */
+    const types::id loadId;
+
+    /**
      * Merchandise.
      */
     const merchandises::Merch& merch;
@@ -156,6 +166,18 @@ class MerchLoad {
     MerchLoad(const Merch& merch,
               const types::quantity quantity,
               const types::price price);
+
+    /**
+     * Copy constructor.
+     * @param loadMerch Merch to copy from.
+     */
+    MerchLoad(const MerchLoad& merchLoad);
+
+    /**
+     * Getter for load ID.
+     * @return ID of the load.
+     */
+    types::id getLoadId() const;
 
     /**
      * Getter for merch.

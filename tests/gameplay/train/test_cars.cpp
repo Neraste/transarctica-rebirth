@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     cars::NormalCar crane(2, "crane", 50);
     BOOST_TEST(crane.getId() == 2);
     BOOST_TEST(crane.getName() == "crane");
-    BOOST_TEST(crane.getHealth() == cars::Car::maxHealth);
+    BOOST_TEST(crane.getHealth() == crane.getMaxHealth());
     BOOST_TEST(crane.getWeight() == 50, tt::tolerance(0.01));
     BOOST_TEST(!crane.isDestroyed());
 
@@ -31,15 +31,19 @@ BOOST_AUTO_TEST_CASE(testGetters) {
     cars::NormalCar none;
     BOOST_TEST(none.getId() == 0);
     BOOST_TEST(none.getName() == "");
-    BOOST_TEST(none.getHealth() == cars::Car::maxHealth);
+    BOOST_TEST(none.getHealth() == none.getMaxHealth());
     BOOST_TEST(none.getWeight() == 0, tt::tolerance(0.01));
     BOOST_TEST(!none.isDestroyed());
+
+    // check the different cars have different unique ID
+    BOOST_TEST(cargo.getCarId() != crane.getCarId());
+    BOOST_TEST(cargo.getCarId() != none.getCarId());
 }
 
 BOOST_AUTO_TEST_CASE(testDammage) {
     // create a car
     cars::NormalCar cargo(1, "cargo", 100);
-    BOOST_TEST(cargo.getHealth() == cars::Car::maxHealth);
+    BOOST_TEST(cargo.getHealth() == cargo.getMaxHealth());
     BOOST_TEST(!cargo.isDestroyed());
 
     // deal dammages
@@ -61,7 +65,7 @@ BOOST_AUTO_TEST_CASE(testRepair) {
 
     // repair it
     cargo.repair();
-    BOOST_TEST(cargo.getHealth() == cars::Car::maxHealth);
+    BOOST_TEST(cargo.getHealth() == cargo.getMaxHealth());
 
     // destroy the car
     cargo.takeDammage(200);
@@ -278,7 +282,7 @@ BOOST_AUTO_TEST_CASE(testCallOperator) {
     cars::LoadCar cargo1 = Cargo();
     BOOST_TEST(cargo1.getName() == "cargo");
     BOOST_TEST(cargo1.isEmpty());
-    BOOST_TEST(cargo1.getHealth() == cars::Car::maxHealth);
+    BOOST_TEST(cargo1.getHealth() == cargo1.getMaxHealth());
 
     // create an empty cargo from car model
     cars::LoadCar cargo2 = Cargo(50);
@@ -290,7 +294,7 @@ BOOST_AUTO_TEST_CASE(testCallOperator) {
     cars::LoadCar cargo3 = Cargo(lumberInCity);
     BOOST_TEST(cargo3.getName() == "cargo");
     BOOST_TEST(!cargo3.isEmpty());
-    BOOST_TEST(cargo3.getHealth() == cars::Car::maxHealth);
+    BOOST_TEST(cargo3.getHealth() == cargo3.getMaxHealth());
 
     // create a cargo from car model
     cars::LoadCar cargo4 = Cargo(50, lumberInCity);
